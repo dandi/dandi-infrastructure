@@ -5,9 +5,9 @@ data "local_file" "ssh_public_key" {
 resource "aws_route53_record" "girder" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "girder"
-  type    = "CNAME"
+  type    = "A"
   ttl     = "300"
-  records = ["dandiarchive.org"]
+  records = [module.girder_server.ec2_ip]
 }
 
 module "girder_server" {
