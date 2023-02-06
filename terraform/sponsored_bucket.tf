@@ -3,8 +3,34 @@ resource "aws_s3_bucket" "sponsored_bucket" {
   provider = aws.sponsored
 
   bucket = "dandiarchive"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_s3_bucket_logging" "sponsored_bucket" {
+  bucket = aws_s3_bucket.sponsored_bucket.id
+
+  target_bucket = aws_s3_bucket.sponsored_bucket_logs.id
+  target_prefix = ""
+}
+
+resource "aws_s3_bucket_acl" "sponsored_bucket" {
+  bucket = aws_s3_bucket.sponsored_bucket.id
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "sponsored_bucket" {
+  bucket = aws_s3_bucket.sponsored_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "sponsored_bucket" {
+  bucket = aws_s3_bucket.sponsored_bucket.id
 
   cors_rule {
     allowed_origins = [
@@ -24,19 +50,9 @@ resource "aws_s3_bucket" "sponsored_bucket" {
     ]
     max_age_seconds = 3000
   }
-
-  logging {
-    target_bucket = aws_s3_bucket.sponsored_bucket_logs.id
-  }
-
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
+
+
 
 resource "aws_s3_bucket_ownership_controls" "sponsored_bucket" {
   bucket = aws_s3_bucket.sponsored_bucket.id

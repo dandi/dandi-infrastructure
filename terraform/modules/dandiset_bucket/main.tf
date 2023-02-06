@@ -3,8 +3,34 @@ data "aws_canonical_user_id" "log_bucket_owner_account" {}
 resource "aws_s3_bucket" "dandiset_bucket" {
 
   bucket = var.bucket_name
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_s3_bucket_logging" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  target_bucket = aws_s3_bucket.log_bucket.id
+  target_prefix = ""
+}
+
+resource "aws_s3_bucket_acl" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
 
   cors_rule {
     allowed_origins = [
@@ -23,18 +49,6 @@ resource "aws_s3_bucket" "dandiset_bucket" {
       "ETag",
     ]
     max_age_seconds = 3000
-  }
-
-  logging {
-    target_bucket = aws_s3_bucket.log_bucket.id
-  }
-
-  versioning {
-    enabled = var.versioning
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 

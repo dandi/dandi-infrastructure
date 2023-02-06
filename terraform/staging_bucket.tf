@@ -2,8 +2,34 @@
 resource "aws_s3_bucket" "api_staging_dandisets_bucket" {
 
   bucket = "dandi-api-staging-dandisets"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_s3_bucket_logging" "api_staging_dandisets_bucket" {
+  bucket = aws_s3_bucket.api_staging_dandisets_bucket.id
+
+  target_bucket = aws_s3_bucket.api_staging_dandisets_bucket_logs.id
+  target_prefix = ""
+}
+
+resource "aws_s3_bucket_acl" "api_staging_dandisets_bucket" {
+  bucket = aws_s3_bucket.api_staging_dandisets_bucket.id
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
+}
+
+resource "aws_s3_bucket_versioning" "api_staging_dandisets_bucket" {
+  bucket = aws_s3_bucket.api_staging_dandisets_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "api_staging_dandisets_bucket" {
+  bucket = aws_s3_bucket.api_staging_dandisets_bucket.id
 
   cors_rule {
     allowed_origins = [
@@ -22,18 +48,6 @@ resource "aws_s3_bucket" "api_staging_dandisets_bucket" {
       "ETag",
     ]
     max_age_seconds = 3000
-  }
-
-  logging {
-    target_bucket = aws_s3_bucket.api_staging_dandisets_bucket_logs.id
-  }
-
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
