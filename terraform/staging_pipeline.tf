@@ -2,8 +2,8 @@
 
 
 module "api_staging" {
-  source  = "girder/django/heroku"
-  version = "0.9.0"
+  source  = "girder/girder4/heroku"
+  version = "0.12.2"
 
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
@@ -46,7 +46,7 @@ module "api_staging" {
 }
 
 resource "heroku_formation" "api_staging_checksum_worker" {
-  app      = module.api_staging.heroku_app_id
+  app_id   = module.api_staging.heroku_app_id
   type     = "checksum-worker"
   size     = "hobby"
   quantity = 1
@@ -66,13 +66,13 @@ resource "heroku_pipeline" "dandi_pipeline" {
 }
 
 resource "heroku_pipeline_coupling" "staging" {
-  app      = module.api_staging.heroku_app_id
+  app_id   = module.api_staging.heroku_app_id
   pipeline = heroku_pipeline.dandi_pipeline.id
   stage    = "staging"
 }
 
 resource "heroku_pipeline_coupling" "production" {
-  app      = module.api.heroku_app_id
+  app_id   = module.api.heroku_app_id
   pipeline = heroku_pipeline.dandi_pipeline.id
   stage    = "production"
 }

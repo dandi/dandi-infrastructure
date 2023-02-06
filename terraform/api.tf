@@ -3,8 +3,8 @@ data "heroku_team" "dandi" {
 }
 
 module "api" {
-  source  = "girder/django/heroku"
-  version = "0.8.0"
+  source  = "girder/girder4/heroku"
+  version = "0.12.2"
 
   project_slug     = "dandi-api"
   heroku_team_name = data.heroku_team.dandi.name
@@ -47,14 +47,14 @@ module "api" {
 }
 
 resource "heroku_formation" "api_checksum_worker" {
-  app      = module.api.heroku_app_id
+  app_id   = module.api.heroku_app_id
   type     = "checksum-worker"
   size     = "standard-1x"
   quantity = 1
 }
 
 data "aws_iam_user" "api" {
-  user_name = module.api.iam_user_id
+  user_name = module.api.heroku_iam_user_id
 }
 
 resource "aws_iam_user_policy" "api_sponsored_bucket" {
