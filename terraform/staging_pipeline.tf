@@ -25,7 +25,7 @@ module "api_staging" {
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                         = "HerokuStagingConfiguration"
-    DJANGO_DANDI_DANDISETS_BUCKET_NAME           = aws_s3_bucket.api_staging_dandisets_bucket.id
+    DJANGO_DANDI_DANDISETS_BUCKET_NAME           = module.staging_dandisets_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_BUCKET_PREFIX         = ""
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_NAME   = module.staging_embargo_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_PREFIX = ""

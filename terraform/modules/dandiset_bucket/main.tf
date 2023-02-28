@@ -1,7 +1,6 @@
 data "aws_canonical_user_id" "log_bucket_owner_account" {}
 
 resource "aws_s3_bucket" "dandiset_bucket" {
-
   bucket = var.bucket_name
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"

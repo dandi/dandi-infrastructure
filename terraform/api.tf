@@ -26,7 +26,7 @@ module "api" {
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                         = "HerokuProductionConfiguration"
-    DJANGO_DANDI_DANDISETS_BUCKET_NAME           = aws_s3_bucket.sponsored_bucket.id
+    DJANGO_DANDI_DANDISETS_BUCKET_NAME           = module.sponsored_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_BUCKET_PREFIX         = ""
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_NAME   = module.sponsored_embargo_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_PREFIX = ""
@@ -70,8 +70,8 @@ data "aws_iam_policy_document" "api_sponsored_bucket" {
       "s3:*",
     ]
     resources = [
-      aws_s3_bucket.sponsored_bucket.arn,
-      "${aws_s3_bucket.sponsored_bucket.arn}/*",
+      module.sponsored_bucket.bucket_arn,
+      "${module.sponsored_bucket.bucket_arn}/*",
     ]
   }
 }
