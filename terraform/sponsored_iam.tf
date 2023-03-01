@@ -37,8 +37,8 @@ data "aws_iam_policy_document" "sponsored_writers" {
       "s3:GetObjectVersion",
     ]
     resources = [
-      "${aws_s3_bucket.sponsored_bucket.arn}/*",
-      aws_s3_bucket.sponsored_bucket.arn,
+      "${module.sponsored_bucket.bucket_arn}/*",
+      module.sponsored_bucket.bucket_arn,
     ]
   }
 }
