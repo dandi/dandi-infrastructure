@@ -10,25 +10,6 @@ resource "aws_s3_bucket" "dandiset_bucket" {
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
 
-  cors_rule {
-    allowed_origins = [
-      "*",
-    ]
-    allowed_methods = [
-      "PUT",
-      "POST",
-      "GET",
-      "DELETE",
-    ]
-    allowed_headers = [
-      "*"
-    ]
-    expose_headers = [
-      "ETag",
-    ]
-    max_age_seconds = 3000
-  }
-
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
   }
@@ -47,6 +28,29 @@ resource "aws_s3_bucket" "dandiset_bucket" {
         sse_algorithm = "AES256"
       }
     }
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  cors_rule {
+    allowed_origins = [
+      "*",
+    ]
+    allowed_methods = [
+      "PUT",
+      "POST",
+      "GET",
+      "DELETE",
+    ]
+    allowed_headers = [
+      "*"
+    ]
+    expose_headers = [
+      "ETag",
+    ]
+    max_age_seconds = 3000
   }
 }
 
