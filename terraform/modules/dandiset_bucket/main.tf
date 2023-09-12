@@ -10,10 +10,6 @@ resource "aws_s3_bucket" "dandiset_bucket" {
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
 
-  logging {
-    target_bucket = aws_s3_bucket.log_bucket.id
-  }
-
   versioning {
     enabled = var.versioning
   }
@@ -52,6 +48,13 @@ resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
     ]
     max_age_seconds = 3000
   }
+}
+
+resource "aws_s3_bucket_logging" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  target_bucket = aws_s3_bucket.log_bucket.id
+  target_prefix = ""
 }
 
 resource "aws_s3_bucket_ownership_controls" "dandiset_bucket" {
