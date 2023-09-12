@@ -10,10 +10,6 @@ resource "aws_s3_bucket" "dandiset_bucket" {
   // Public access is granted via a bucket policy, not a canned ACL
   acl = "private"
 
-  versioning {
-    enabled = var.versioning
-  }
-
   lifecycle {
     prevent_destroy = true
   }
@@ -55,6 +51,16 @@ resource "aws_s3_bucket_logging" "dandiset_bucket" {
 
   target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = ""
+}
+
+resource "aws_s3_bucket_versioning" "dandiset_bucket" {
+  for_each = var.versioning ? [1] : []
+
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "dandiset_bucket" {
