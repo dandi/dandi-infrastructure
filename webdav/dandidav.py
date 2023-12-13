@@ -85,8 +85,8 @@ class DandisetResource(DAVCollection):
         # Fix for <https://github.com/mar10/wsgidav/issues/301>
         return False
 
-    def get_creation_date(self) -> datetime:
-        return self.dandiset.created
+    def get_creation_date(self) -> float:
+        return self.dandiset.created.timestamp()
 
     def get_last_modified(self) -> float:
         return self.dandiset.modified.timestamp()
@@ -123,8 +123,8 @@ class VersionResource(DAVCollection):
         # Fix for <https://github.com/mar10/wsgidav/issues/301>
         return False
 
-    def get_creation_date(self) -> datetime:
-        return self.dandiset.version.created
+    def get_creation_date(self) -> float:
+        return self.dandiset.version.timestamp()
 
     def get_last_modified(self) -> float:
         return self.dandiset.version.modified.timestamp()
@@ -166,8 +166,8 @@ class AssetResource(DAVNonCollection):
     def support_etag(self) -> bool:
         return True
 
-    def get_creation_date(self) -> datetime:
-        return self.asset.created
+    def get_creation_date(self) -> float:
+        return self.asset.created.timestamp()
 
     def get_last_modified(self) -> float:
         return self.asset.modified.timestamp()
