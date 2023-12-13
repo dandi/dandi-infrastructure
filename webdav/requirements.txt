@@ -1,0 +1,4 @@
+cheroot
+dandi >= 0.58
+fsspec[http]
+wsgidav ~= 4.3
