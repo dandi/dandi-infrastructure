@@ -1,4 +1,4 @@
 cheroot
-dandi >= 0.58
+dandi >= 0.58.2
 fsspec[http]
 wsgidav ~= 4.3
