@@ -1,4 +1,6 @@
 # Python >= 3.9
+boto3
+botocore
 cheroot
 dandi >= 0.58.2
 fsspec[http]
