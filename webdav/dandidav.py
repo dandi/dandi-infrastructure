@@ -1,8 +1,13 @@
 from __future__ import annotations
+from collections.abc import Iterator
+from dataclasses import dataclass
+import io
+from operator import attrgetter
 from typing import IO
 from cheroot import wsgi
 from dandi.dandiapi import DandiAPIClient, RemoteAsset, RemoteDandiset
 from dandi.exceptions import NotFoundError
+from ruamel.yaml import YAML
 from wsgidav.dav_provider import DAVCollection, DAVNonCollection, DAVProvider
 from wsgidav.util import join_uri
 from wsgidav.wsgidav_app import WsgiDAVApp
@@ -151,42 +156,86 @@ class ReleasesCollection(DAVCollection):
         return False
 
 
-class VersionResource(DAVCollection):
-    """A Dandiset at a specific version, containing assets"""
-
-    def __init__(self, path: str, environ: dict, dandiset: RemoteDandiset) -> None:
+class AssetFolder(DAVCollection):
+    def __init__(
+        self, path: str, environ: dict, dandiset: RemoteDandiset, asset_path_prefix: str
+    ) -> None:
         super().__init__(path, environ)
         self.dandiset = dandiset
+        self.asset_path_prefix = asset_path_prefix
 
-    def get_display_info(self) -> dict[str, str]:
-        return {"type": "Dandiset version"}
-
-    def get_member_list(self) -> list[AssetResource]:
-        return [
-            AssetResource(join_uri(self.path, a.identifier), self.environ, a)
-            for a in self.dandiset.get_assets()
-        ]
+    def get_member_list(self) -> list[AssetResource | AssetFolder]:
+        members = []
+        for n in self.iter_dandi_folder():
+            if isinstance(n, DandiAssetFolder):
+                members.append(
+                    AssetFolder(
+                        join_uri(self.path, n.name),
+                        self.environ,
+                        self.dandiset,
+                        n.prefix,
+                    )
+                )
+            else:
+                assert isinstance(n, DandiAsset)
+                asset = self.dandiset.get_asset(n.asset_id)
+                members.append(
+                    AssetResource(join_uri(self.path, n.name), self.environ, asset)
+                )
+        return members
 
     def get_member_names(self) -> list[str]:
-        return [a.identifier for a in self.dandiset.get_assets()]
+        return [n.name for n in self.iter_dandi_folder()]
 
-    def get_member(self, name: str) -> AssetResource | None:
-        try:
-            a = self.dandiset.get_asset(name)
-        except NotFoundError:
-            return None
+    def get_member(self, name: str) -> AssetResource | AssetFolder | None:
+        if self.asset_path_prefix == "":
+            prefix = name
         else:
-            return AssetResource(join_uri(self.path, name), self.environ, a)
+            prefix = f"{self.asset_path_prefix}/{name}"
+        for a in self.dandiset.get_assets_with_path_prefix(prefix, order="path"):
+            if a.path == prefix:
+                return AssetResource(join_uri(self.path, name), self.environ, a)
+            elif a.path.startswith(f"{prefix}/"):
+                return AssetFolder(
+                    join_uri(self.path, name),
+                    self.environ,
+                    self.dandiset,
+                    prefix,
+                )
+        return None
 
     def is_link(self) -> bool:
         # Fix for <https://github.com/mar10/wsgidav/issues/301>
         return False
 
-    def get_creation_date(self) -> float:
-        return self.dandiset.version.timestamp()
+    def iter_dandi_folder(self) -> Iterator[DandiAssetFolder | DandiAsset]:
+        path = (
+            f"/dandisets/{self.dandiset.identifier}/versions"
+            f"/{self.dandiset.version.identifier}/assets/paths"
+        )
+        for node in self.dandiset.client.paginate(
+            path, params={"path_prefix": self.asset_path_prefix}
+        ):
+            if self.asset_path_prefix == "":
+                name = node["path"]
+            else:
+                name = node["path"].removeprefix(f"{self.asset_path_prefix}/")
+            if node["asset"] is not None:
+                yield DandiAsset(name, asset_id=node["asset"]["asset_id"])
+            else:
+                yield DandiAssetFolder(name, prefix=node["path"])
 
-    def get_last_modified(self) -> float:
-        return self.dandiset.version.modified.timestamp()
+
+@dataclass
+class DandiAsset:
+    name: str
+    asset_id: str
+
+
+@dataclass
+class DandiAssetFolder:
+    name: str
+    prefix: str
 
 
 class AssetResource(DAVNonCollection):
@@ -205,9 +254,6 @@ class AssetResource(DAVNonCollection):
             return self.asset.get_raw_metadata()["encodingFormat"]
         except KeyError:
             return "application/octet-stream"
-
-    def get_display_name(self) -> str:
-        return self.asset.path
 
     def get_display_info(self) -> dict:
         return {"type": "Asset"}
@@ -230,6 +276,92 @@ class AssetResource(DAVNonCollection):
 
     def get_last_modified(self) -> float:
         return self.asset.modified.timestamp()
+
+
+class VersionResource(AssetFolder):
+    """
+    A Dandiset at a specific version, containing top-level assets and asset
+    folders
+    """
+
+    def __init__(self, path: str, environ: dict, dandiset: RemoteDandiset) -> None:
+        super().__init__(path, environ, dandiset, "")
+
+    def get_display_info(self) -> dict[str, str]:
+        return {"type": "Dandiset version"}
+
+    def get_member_list(self) -> list[AssetResource | AssetFolder | DandisetYaml]:
+        members = super().get_member_list()
+        members.append(
+            DandisetYaml(
+                join_uri(self.path, "dandiset.yaml"),
+                self.environ,
+                self.dandiset.get_raw_metadata(),
+            )
+        )
+        members.sort(key=attrgetter("name"))
+        return members
+
+    def get_member_names(self) -> list[str]:
+        names = super().get_member_names()
+        names.append("dandiset.yaml")
+        names.sort()
+        return names
+
+    def get_member(
+        self, name: str
+    ) -> AssetResource | AssetFolder | DandisetYaml | None:
+        if name == "dandiset.yaml":
+            return DandisetYaml(
+                join_uri(self.path, "dandiset.yaml"),
+                self.environ,
+                self.dandiset.get_raw_metadata(),
+            )
+        else:
+            return super().get_member(name)
+
+    def is_link(self) -> bool:
+        # Fix for <https://github.com/mar10/wsgidav/issues/301>
+        return False
+
+    def get_creation_date(self) -> float:
+        return self.dandiset.version.timestamp()
+
+    def get_last_modified(self) -> float:
+        return self.dandiset.version.modified.timestamp()
+
+
+class DandisetYaml(DAVNonCollection):
+    def __init__(self, path: str, environ: dict, metadata: dict) -> None:
+        super().__init__(path, environ)
+        self.metadata = metadata
+
+    def get_content(self) -> IO[bytes]:
+        yaml = YAML(typ="safe")
+        yaml.default_flow_style = False
+        out = io.BytesIO()
+        yaml.dump(self.metadata, out)
+        out.seek(0)
+        return out
+
+    def get_content_length(self) -> None:
+        return None
+
+    def get_content_type(self) -> str:
+        return "application/yaml"
+
+    def get_display_info(self) -> dict:
+        return {"type": "Dandiset metadata"}
+
+    def is_link(self) -> bool:
+        # Fix for <https://github.com/mar10/wsgidav/issues/301>
+        return False
+
+    def get_etag(self) -> None:
+        return None
+
+    def support_etag(self) -> bool:
+        return False
 
 
 if __name__ == "__main__":
