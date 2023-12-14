@@ -1,5 +1,4 @@
 from __future__ import annotations
-from datetime import datetime
 from typing import IO
 from cheroot import wsgi
 from dandi.dandiapi import DandiAPIClient, RemoteAsset, RemoteDandiset
@@ -22,6 +21,21 @@ class DandiProvider(DAVProvider):
 
 
 class RootCollection(DAVCollection):
+    def get_member_names(self) -> list[str]:
+        return ["dandisets"]
+
+    def get_member(self, name: str) -> DandisetCollection | None:
+        if name == "dandisets":
+            return DandisetCollection(join_uri(self.path, name), self.environ)
+        else:
+            return None
+
+    def is_link(self) -> bool:
+        # Fix for <https://github.com/mar10/wsgidav/issues/301>
+        return False
+
+
+class DandisetCollection(DAVCollection):
     """Collection of Dandisets in instance"""
 
     def __init__(self, path: str, environ: dict) -> None:
@@ -51,8 +65,6 @@ class RootCollection(DAVCollection):
 
 
 class DandisetResource(DAVCollection):
-    """A Dandiset viewed as a collection of Dandiset versions"""
-
     def __init__(self, path: str, environ: dict, dandiset: RemoteDandiset) -> None:
         super().__init__(path, environ)
         self.dandiset = dandiset
@@ -60,26 +72,32 @@ class DandisetResource(DAVCollection):
     def get_display_info(self) -> dict[str, str]:
         return {"type": "Dandiset"}
 
-    def get_member_list(self) -> list[VersionResource]:
-        return [
-            VersionResource(
-                join_uri(self.path, v.identifier),
-                self.environ,
-                self.dandiset.for_version(v),
-            )
-            for v in self.dandiset.get_versions()
-        ]
-
     def get_member_names(self) -> list[str]:
-        return [v.identifier for v in self.dandiset.get_versions()]
+        names = ["draft"]
+        if self.dandiset.most_recent_published_version is not None:
+            names.append("latest")
+            names.append("releases")
+        return names
 
-    def get_member(self, name: str) -> VersionResource | None:
-        try:
-            d = self.dandiset.for_version(name)
-        except NotFoundError:
-            return None
-        else:
+    def get_member(self, name: str) -> VersionResource | ReleasesCollection:
+        if name == "draft":
+            d = self.dandiset.for_version(self.dandiset.draft_version)
             return VersionResource(join_uri(self.path, name), self.environ, d)
+        elif (
+            name == "latest"
+            and (v := self.dandiset.most_recent_published_version) is not None
+        ):
+            d = self.dandiset.for_version(v)
+            return VersionResource(join_uri(self.path, name), self.environ, d)
+        elif (
+            name == "releases"
+            and self.dandiset.most_recent_published_version is not None
+        ):
+            return ReleasesCollection(
+                join_uri(self.path, name), self.environ, self.dandiset
+            )
+        else:
+            return None
 
     def is_link(self) -> bool:
         # Fix for <https://github.com/mar10/wsgidav/issues/301>
@@ -90,6 +108,47 @@ class DandisetResource(DAVCollection):
 
     def get_last_modified(self) -> float:
         return self.dandiset.modified.timestamp()
+
+
+class ReleasesCollection(DAVCollection):
+    def __init__(self, path: str, environ: dict, dandiset: RemoteDandiset) -> None:
+        super().__init__(path, environ)
+        self.dandiset = dandiset
+
+    def get_display_info(self) -> dict[str, str]:
+        return {"type": "Dandiset releases"}
+
+    def get_member_list(self) -> list[VersionResource]:
+        return [
+            VersionResource(
+                join_uri(self.path, v.identifier),
+                self.environ,
+                self.dandiset.for_version(v),
+            )
+            for v in self.dandiset.get_versions()
+            if v.identifier != "draft"
+        ]
+
+    def get_member_names(self) -> list[str]:
+        return [
+            v.identifier
+            for v in self.dandiset.get_versions()
+            if v.identifier != "draft"
+        ]
+
+    def get_member(self, name: str) -> VersionResource | None:
+        if name == "draft":
+            return None
+        try:
+            d = self.dandiset.for_version(name)
+        except NotFoundError:
+            return None
+        else:
+            return VersionResource(join_uri(self.path, name), self.environ, d)
+
+    def is_link(self) -> bool:
+        # Fix for <https://github.com/mar10/wsgidav/issues/301>
+        return False
 
 
 class VersionResource(DAVCollection):
