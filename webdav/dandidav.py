@@ -294,9 +294,7 @@ class VersionResource(AssetFolder):
         members = super().get_member_list()
         members.append(
             DandisetYaml(
-                join_uri(self.path, "dandiset.yaml"),
-                self.environ,
-                self.dandiset.get_raw_metadata(),
+                join_uri(self.path, "dandiset.yaml"), self.environ, self.dandiset
             )
         )
         members.sort(key=attrgetter("name"))
@@ -313,9 +311,7 @@ class VersionResource(AssetFolder):
     ) -> AssetResource | AssetFolder | DandisetYaml | None:
         if name == "dandiset.yaml":
             return DandisetYaml(
-                join_uri(self.path, "dandiset.yaml"),
-                self.environ,
-                self.dandiset.get_raw_metadata(),
+                join_uri(self.path, "dandiset.yaml"), self.environ, self.dandiset
             )
         else:
             return super().get_member(name)
@@ -332,15 +328,15 @@ class VersionResource(AssetFolder):
 
 
 class DandisetYaml(DAVNonCollection):
-    def __init__(self, path: str, environ: dict, metadata: dict) -> None:
+    def __init__(self, path: str, environ: dict, dandiset: RemoteDandiset) -> None:
         super().__init__(path, environ)
-        self.metadata = metadata
+        self.dandiset = dandiset
 
     def get_content(self) -> IO[bytes]:
         yaml = YAML(typ="safe")
         yaml.default_flow_style = False
         out = io.BytesIO()
-        yaml.dump(self.metadata, out)
+        yaml.dump(self.dandiset.get_raw_metadata(), out)
         out.seek(0)
         return out
 
