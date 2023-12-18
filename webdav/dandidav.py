@@ -4,12 +4,14 @@ from dataclasses import dataclass
 from datetime import datetime
 import io
 from operator import attrgetter
+import re
 from typing import IO
 from urllib.parse import quote
 import boto3
 from botocore import UNSIGNED
 from botocore.client import Config
 from cheroot import wsgi
+from dandi.consts import DANDISET_ID_REGEX, PUBLISHED_VERSION_REGEX
 from dandi.dandiapi import (
     DandiAPIClient,
     RemoteAsset,
@@ -77,7 +79,7 @@ class DandisetCollection(DAVCollection):
         return [d.identifier for d in self.client.get_dandisets()]
 
     def get_member(self, name: str) -> DandisetResource | None:
-        if name in FAST_NOT_EXIST:
+        if not re.fullmatch(DANDISET_ID_REGEX, name):
             return None
         try:
             d = self.client.get_dandiset(name, lazy=False)
@@ -164,7 +166,7 @@ class ReleasesCollection(DAVCollection):
         ]
 
     def get_member(self, name: str) -> VersionResource | None:
-        if name in FAST_NOT_EXIST or name == "draft":
+        if not re.fullmatch(PUBLISHED_VERSION_REGEX, name):
             return None
         try:
             d = self.dandiset.for_version(name)
