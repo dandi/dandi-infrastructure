@@ -269,6 +269,9 @@ class BlobResource(DAVNonCollection):
     def get_content(self) -> IO[bytes]:
         return self.asset.as_readable().open()
 
+    def support_ranges(self) -> bool:
+        return True
+
     def get_content_length(self) -> int:
         return self.asset.size
 
@@ -364,6 +367,9 @@ class DandisetYaml(DAVNonCollection):
         yaml.dump(self.dandiset.get_raw_metadata(), out)
         out.seek(0)
         return out
+
+    def support_ranges(self) -> bool:
+        return True
 
     def get_content_length(self) -> None:
         return None
@@ -481,6 +487,9 @@ class ZarrEntryResource(DAVNonCollection):
 
     def get_content(self) -> IO[bytes]:
         return fsspec.open(self.data.url, mode="rb").open()
+
+    def support_ranges(self) -> bool:
+        return True
 
     def get_content_length(self) -> int:
         return self.data.size
