@@ -369,7 +369,7 @@ class DandisetYaml(DAVNonCollection):
         return None
 
     def get_content_type(self) -> str:
-        return "application/yaml"
+        return "text/yaml; charset=utf-8"
 
     def get_display_info(self) -> dict:
         return {"type": "Dandiset metadata"}
