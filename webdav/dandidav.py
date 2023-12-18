@@ -28,6 +28,10 @@ INSTANCE = "dandi"
 TOKEN = None
 BUCKET = "dandiarchive"
 
+# If a client makes a request for a path with one of these names, assume it
+# doesn't exist without checking the Archive:
+FAST_NOT_EXIST = [".git", ".svn", ".bzr", ".nols"]
+
 
 class DandiProvider(DAVProvider):
     def __init__(self) -> None:
@@ -73,6 +77,8 @@ class DandisetCollection(DAVCollection):
         return [d.identifier for d in self.client.get_dandisets()]
 
     def get_member(self, name: str) -> DandisetResource | None:
+        if name in FAST_NOT_EXIST:
+            return None
         try:
             d = self.client.get_dandiset(name, lazy=False)
         except NotFoundError:
@@ -158,7 +164,7 @@ class ReleasesCollection(DAVCollection):
         ]
 
     def get_member(self, name: str) -> VersionResource | None:
-        if name == "draft":
+        if name in FAST_NOT_EXIST or name == "draft":
             return None
         try:
             d = self.dandiset.for_version(name)
@@ -202,6 +208,8 @@ class AssetFolder(DAVCollection):
         return [n.name for n in self.iter_dandi_folder()]
 
     def get_member(self, name: str) -> BlobResource | ZarrResource | AssetFolder | None:
+        if name in FAST_NOT_EXIST:
+            return None
         if self.asset_path_prefix == "":
             prefix = name
         else:
@@ -420,6 +428,8 @@ class ZarrFolder(DAVCollection):
         return [n.name for n in self.iter_zarr_folder()]
 
     def get_member(self, name: str) -> ZarrFolder | ZarrEntryResource | None:
+        if name in FAST_NOT_EXIST:
+            return None
         prefix = self.prefix + name
         for page in self.s3client.get_paginator("list_objects_v2").paginate(
             Bucket=BUCKET, Prefix=prefix, Delimiter="/"
