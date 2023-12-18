@@ -346,7 +346,7 @@ class VersionResource(AssetFolder):
         return False
 
     def get_creation_date(self) -> float:
-        return self.dandiset.version.timestamp()
+        return self.dandiset.version.created.timestamp()
 
     def get_last_modified(self) -> float:
         return self.dandiset.version.modified.timestamp()
