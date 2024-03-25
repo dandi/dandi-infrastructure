@@ -136,6 +136,42 @@ data "aws_iam_policy_document" "dandiset_bucket_owner" {
   }
 }
 
+resource "aws_s3_bucket_policy" "dandiset_embargoed_objects" {
+  count    = var.public ? 1 : 0
+  provider = aws
+  bucket   = aws_s3_bucket.dandiset_bucket.id
+  policy   = data.aws_iam_policy_document.dandiset_embargoed_objects[0].json
+}
+
+data "aws_iam_policy_document" "dandiset_embargoed_objects" {
+  count   = var.public ? 1 : 0
+  version = "2008-10-17"
+
+  statement {
+    effect = "Deny"
+    principals {
+      identifiers = ["*"]
+      type        = "*"
+    }
+    actions = [
+      "s3:*",
+    ]
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "s3:ExistingObjectTag/embargoed"
+      values   = ["true"]
+    }
+    condition {
+      test     = "ArnNotEquals"
+      variable = "aws:PrincipalArn"
+      values   = [var.heroku_user.arn]
+    }
+  }
+}
+
 resource "aws_s3_bucket_policy" "dandiset_bucket_policy" {
   provider = aws
 
