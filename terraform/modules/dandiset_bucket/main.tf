@@ -283,7 +283,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
   }
 
   dynamic "statement" {
-    for_each = var.trailing_delete ? [1] : []
+    for_each = var.versioning ? [1] : []
 
     content {
       sid = "PreventDeletionOfObjectVersions"
@@ -313,7 +313,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "expire_deleted_objects" {
   # Must have bucket versioning enabled first
   depends_on = [aws_s3_bucket_versioning.dandiset_bucket]
 
-  count = var.trailing_delete ? 1 : 0
+  count = var.versioning ? 1 : 0
 
   bucket = aws_s3_bucket.dandiset_bucket.id
 

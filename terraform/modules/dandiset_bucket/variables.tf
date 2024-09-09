@@ -34,10 +34,3 @@ variable "log_bucket_name" {
   type        = string
   description = "The name of the log bucket."
 }
-
-# TODO: this can be inferred from the "versioning" variable once we're ready
-# to deploy this to the production bucket as well.
-variable "trailing_delete" {
-  type        = bool
-  description = "Whether or not trailing delete should be enabled on the bucket."
-}
