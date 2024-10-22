@@ -308,7 +308,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
 
 
 # S3 lifecycle policy that permanently deletes objects with delete markers
-# after 30 days.
+# after 30 days. Note, this only applies to objects with the `blobs/` prefix.
 resource "aws_s3_bucket_lifecycle_configuration" "expire_deleted_objects" {
   # Must have bucket versioning enabled first
   depends_on = [aws_s3_bucket_versioning.dandiset_bucket]
@@ -320,7 +320,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "expire_deleted_objects" {
   # Based on https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html#lifecycle-config-conceptual-ex7
   rule {
     id = "ExpireOldDeleteMarkers"
-    filter {}
+    filter {
+      # We only want to expire objects with the `blobs/` prefix, i.e. Asset Blobs.
+      # Other objects in this bucket are not subject to this lifecycle policy.
+      prefix = "blobs/"
+    }
 
     # Expire objects with delete markers after 30 days
     noncurrent_version_expiration {
