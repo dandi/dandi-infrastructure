@@ -34,3 +34,10 @@ variable "log_bucket_name" {
   type        = string
   description = "The name of the log bucket."
 }
+
+# TODO: remove this after it's ready to be enabled in production
+variable "enable_manifest_file_expiration" {
+  type        = bool
+  description = "Whether or not to enable expiration of manifest files."
+  default     = false
+}

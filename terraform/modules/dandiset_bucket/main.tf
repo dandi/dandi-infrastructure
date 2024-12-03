@@ -339,3 +339,34 @@ resource "aws_s3_bucket_lifecycle_configuration" "expire_deleted_objects" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "expire_noncurrent_manifest_files" {
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.dandiset_bucket]
+
+  count = var.versioning && var.enable_manifest_file_expiration ? 1 : 0
+
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  # Based on https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html#lifecycle-config-conceptual-ex7
+  rule {
+    id = "ExpireOldManifestFileVersions"
+    filter {
+      # We only want to expire objects with the `dandisets/` prefix, i.e. manifest files.
+      # Other objects in this bucket are not subject to this lifecycle policy.
+      prefix = "dandisets/"
+    }
+
+    # Only keep 1 noncurrent version of manifest files
+    noncurrent_version_expiration {
+      newer_noncurrent_versions = 1
+    }
+
+    # Also delete any delete markers associated with the expired object
+    expiration {
+      expired_object_delete_marker = true
+    }
+
+    status = "Enabled"
+  }
+}
