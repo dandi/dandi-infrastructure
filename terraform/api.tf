@@ -1,5 +1,5 @@
 data "heroku_team" "dandi" {
-  name = "dandi"
+  name = "ember-dandi"
 }
 
 module "api" {
@@ -20,9 +20,9 @@ module "api" {
   heroku_web_dyno_quantity    = 3
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://dandiarchive.org"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"]
+  django_default_from_email          = "bbqs-ember-admin.jhuapl.edu"
+  django_cors_origin_whitelist       = ["https://dandi.ember-archive.org"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-ember-archive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuProductionConfiguration"
@@ -32,16 +32,16 @@ module "api" {
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_PREFIX   = ""
     DJANGO_DANDI_DANDISETS_LOG_BUCKET_NAME         = module.sponsored_dandiset_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.sponsored_embargo_bucket.log_bucket_name
-    DJANGO_DANDI_DOI_API_URL                       = "https://api.datacite.org/dois"
+    DJANGO_DANDI_DOI_API_URL                       = "https://api.datacite.org/dois" // TODO ??
     DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
     DJANGO_DANDI_DOI_API_PREFIX                    = "10.48324"
     DJANGO_DANDI_DOI_PUBLISH                       = "true"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "4"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://dandiarchive.org"
-    DJANGO_DANDI_API_URL                           = "https://api.dandiarchive.org"
-    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://dandi.ember-archive.org"
+    DJANGO_DANDI_API_URL                           = "https://api-dandi.ember-archive.org"
+    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.ember-archive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
   }
   additional_sensitive_django_vars = {

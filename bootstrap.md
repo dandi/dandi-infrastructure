@@ -33,6 +33,10 @@ TODO
     * Value: <copied "Secret access key" from `dandi-infrastructure-bot`>
     * Sensitive: <checked>
 
+### APL Notes
+- We skipped creating `dandi-infrastructure-bot` as we are using a long term keys
+- For information on creating long term access keys: https://aplwiki.jhuapl.edu/confluence/pages/viewpage.action?spaceKey=IETP&title=Creating+Long-Term+Access+Keys
+
 ## Sponsored AWS Account
 * Add a new IAM Role (`dandi-infrastructure`),
   which allows the project account to make changes to this account

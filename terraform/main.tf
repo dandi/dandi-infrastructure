@@ -9,33 +9,36 @@ terraform {
 }
 
 // This is the "project" account, the primary account with most resources
+// REDD-EMBER AWS Account
 provider "aws" {
-  region              = "us-east-2"
-  allowed_account_ids = ["278212569472"]
-  # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars
+  region              = "us-east-1"
+  allowed_account_ids = ["503561422188"]
+  # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars in Terraform
 }
 
 // The "sponsored" account, the Amazon-sponsored account with the public bucket
+// REDD-EMBER-dev AWS Account
+// TODO: Change to Open Data Bucket Account once we've tested
 provider "aws" {
   alias               = "sponsored"
-  region              = "us-east-2"
-  allowed_account_ids = ["769362853226"]
+  region              = "us-east-1"
+  allowed_account_ids = ["886436969878"]
 
   // This will authenticate using credentials from the project account, then assume the
   // "dandi-infrastructure" role from the sponsored account to manage resources there
   assume_role {
-    role_arn = "arn:aws:iam::769362853226:role/dandi-infrastructure"
+    role_arn = "arn:aws:iam::886436969878:role/dandi-infrastructure"
   }
 
-  # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars for project account
+  # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars for project account in Terraform
 }
 
 provider "heroku" {
-  # Must set HEROKU_EMAIL, HEROKU_API_KEY envvars
+  # Must set HEROKU_EMAIL, HEROKU_API_KEY envvars in Terraform
 }
 
 provider "sentry" {
-  # Must set SENTRY_AUTH_TOKEN envvar
+  # Must set SENTRY_AUTH_TOKEN envvar in Terraform
 }
 
 data "aws_canonical_user_id" "project_account" {}

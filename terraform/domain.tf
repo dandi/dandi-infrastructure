@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "dandi" {
-  name = "dandiarchive.org"
+  name = "ember-archive.org"
 }
 
 resource "aws_route53_record" "acm_validation" {
