@@ -9,7 +9,7 @@ module "api" {
   project_slug     = "dandi-api"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
-  subdomain_name   = "api"
+  subdomain_name   = "api-dandi"
 
   heroku_web_dyno_size    = "standard-2x"
   heroku_worker_dyno_size = "standard-2x"
@@ -33,8 +33,8 @@ module "api" {
     DJANGO_DANDI_DANDISETS_LOG_BUCKET_NAME         = module.sponsored_dandiset_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.sponsored_embargo_bucket.log_bucket_name
     DJANGO_DANDI_DOI_API_URL                       = "https://api.datacite.org/dois" // TODO ??
-    DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
-    DJANGO_DANDI_DOI_API_PREFIX                    = "10.48324"
+    DJANGO_DANDI_DOI_API_USER                      = "JHU.BOSSDB"
+    DJANGO_DANDI_DOI_API_PREFIX                    = "10.60533"
     DJANGO_DANDI_DOI_PUBLISH                       = "true"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
