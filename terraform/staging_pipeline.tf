@@ -19,9 +19,9 @@ module "api_staging" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api-staging.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://gui-staging.dandiarchive.org"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
+  django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
+  django_cors_origin_whitelist       = ["https://gui-staging-dandi.ember-archive.org"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandi.ember-archive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
@@ -38,9 +38,9 @@ module "api_staging" {
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "2"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-staging.dandiarchive.org"
-    DJANGO_DANDI_API_URL                           = "https://api-staging.dandiarchive.org"
-    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-staging-dandi.ember-archive.org"
+    DJANGO_DANDI_API_URL                           = "https://api-staging-dandi.ember-archive.org"
+    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.ember-archive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
   }
   additional_sensitive_django_vars = {

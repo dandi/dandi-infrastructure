@@ -20,7 +20,7 @@ module "api" {
   heroku_web_dyno_quantity    = 3
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "bbqs-ember-admin.jhuapl.edu"
+  django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
   django_cors_origin_whitelist       = ["https://dandi.ember-archive.org"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-ember-archive-org\\.netlify\\.app$"]
 

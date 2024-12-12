@@ -4,10 +4,10 @@ resource "aws_route53_zone" "dandi" {
 
 resource "aws_route53_record" "acm_validation" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "_cbe41dfe1888c2bb5c157cacc35e1722"
+  name    = "_755ff606dac73e69c5c10c5139ec3c10"
   type    = "CNAME"
   ttl     = "300"
-  records = ["_46df7ee9a9c17698aedbb737f220c63a.mzlfeqexyx.acm-validations.aws."]
+  records = ["_f069d074ef9a310884fa16f77695324f.zfyfvmchrl.acm-validations.aws."]
 }
 
 resource "aws_route53_record" "gui" {
@@ -23,7 +23,7 @@ resource "aws_route53_record" "gui-staging" {
   name    = "gui-staging"
   type    = "CNAME"
   ttl     = "300"
-  records = ["gui-staging-dandiarchive-org.netlify.com"]
+  records = ["gui-staging-dandi-ember-archive-org.netlify.com"]
 }
 
 resource "aws_route53_record" "www" {
