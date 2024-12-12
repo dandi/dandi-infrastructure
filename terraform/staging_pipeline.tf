@@ -2,8 +2,8 @@
 
 
 module "api_staging" {
-  source  = "girder/girder4/heroku"
-  version = "0.13.0"
+  source  = "kitware-resonant/resonant/heroku"
+  version = "1.1.1"
 
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
