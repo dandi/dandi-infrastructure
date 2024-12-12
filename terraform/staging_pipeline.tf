@@ -32,8 +32,8 @@ module "api_staging" {
     DJANGO_DANDI_DANDISETS_LOG_BUCKET_NAME         = module.staging_dandiset_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.staging_embargo_bucket.log_bucket_name
     DJANGO_DANDI_DOI_API_URL                       = "https://api.test.datacite.org/dois"
-    DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
-    DJANGO_DANDI_DOI_API_PREFIX                    = "10.80507"
+    DJANGO_DANDI_DOI_API_USER                      = "JHU.NXHEVY"
+    DJANGO_DANDI_DOI_API_PREFIX                    = "10.82754"
     DJANGO_DANDI_DOI_PUBLISH                       = "false"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
