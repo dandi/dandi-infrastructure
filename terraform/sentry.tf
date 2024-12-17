@@ -1,15 +1,15 @@
 data "sentry_organization" "this" {
-  slug = "dandiarchive"
+  slug = "ember-archive-dandi"
 }
 
 data "sentry_team" "this" {
   organization = data.sentry_organization.this.id
-  slug         = "dandidevs"
+  slug         = "ember-devs"
 }
 
 data "sentry_project" "this" {
   organization = data.sentry_organization.this.id
-  slug         = "dandi-api"
+  slug         = "ember-archive-dandi-api"
 }
 
 data "sentry_key" "this" {
