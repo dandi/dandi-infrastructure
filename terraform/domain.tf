@@ -1,18 +1,6 @@
-
-// EXAMPLE
-
-# Lookup existing hosted zone
-data "aws_route53_zone" "dandi" {
-  name = "ember-archive.org." # Replace with your hosted zone name
-}
-
 resource "aws_route53_zone" "dandi" {
   name = "ember-archive.org"
-
-  count = length(data.aws_route53_zone.dandi.id) == 0 ? 1 : 0
 }
-
-// END
 
 resource "aws_route53_record" "acm_validation" {
   zone_id = aws_route53_zone.dandi.zone_id
