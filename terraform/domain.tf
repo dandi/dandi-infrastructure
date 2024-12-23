@@ -17,8 +17,8 @@ resource "aws_route53_zone" "dandi" {
 
 
 # Use the existing or newly created hosted zone
-resource "aws_route53_zone" "dandi" "zone_id" {
-  value = coalesce(
+resource "aws_route53_zone" "dandi" {
+  zone_id = coalesce(
     data.aws_route53_zone.existing.id,
     aws_route53_zone.dandi[0].id
   )
