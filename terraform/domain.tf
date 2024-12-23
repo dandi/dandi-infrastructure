@@ -1,6 +1,32 @@
+
+// EXAMPLE
+
+# Lookup existing hosted zone
+data "aws_route53_zone" "existing" {
+  name         = "ember-archive.org" # Replace with your hosted zone name
+  private_zone = false          # Set to true if it's a private zone
+}
+
 resource "aws_route53_zone" "dandi" {
   name = "ember-archive.org"
+
+  private_zone = false          # Set to true if it's a private zone
+
+  count = length(data.aws_route53_zone.existing.id) == 0 ? 1 : 0
 }
+
+
+# Use the existing or newly created hosted zone
+output "aws_route53_zone" "dandi" "zone_id" {
+  value = coalesce(
+    data.aws_route53_zone.existing.id,
+    aws_route53_zone.dandi[0].id
+  )
+}
+
+
+
+// END
 
 resource "aws_route53_record" "acm_validation" {
   zone_id = aws_route53_zone.dandi.zone_id
@@ -31,7 +57,7 @@ resource "aws_route53_record" "www" {
   name    = "www"
   type    = "CNAME"
   ttl     = "300"
-  records = ["dandi.github.io"]
+  records = ["dandi.github.io"] // TODO ?
 }
 
 resource "aws_route53_record" "email" {
