@@ -7,22 +7,22 @@ data "aws_route53_zone" "dandi" {
   private_zone = false          # Set to true if it's a private zone
 }
 
-// resource "aws_route53_zone" "dandi" {
-//   name = "ember-archive.org"
-// 
-//   private_zone = false          # Set to true if it's a private zone
-// 
-//   count = length(data.aws_route53_zone.existing.id) == 0 ? 1 : 0
-// }
-// 
-// 
-// # Use the existing or newly created hosted zone
-// resource "aws_route53_zone" "dandi" "zone_id" {
-//   value = coalesce(
-//     data.aws_route53_zone.existing.id,
-//     aws_route53_zone.dandi[0].id
-//   )
-// }
+resource "aws_route53_zone" "dandi" {
+  name = "ember-archive.org"
+
+  private_zone = false          # Set to true if it's a private zone
+
+  count = length(data.aws_route53_zone.existing.id) == 0 ? 1 : 0
+}
+
+
+# Use the existing or newly created hosted zone
+resource "aws_route53_zone" "dandi" "zone_id" {
+  value = coalesce(
+    data.aws_route53_zone.existing.id,
+    aws_route53_zone.dandi[0].id
+  )
+}
 
 
 
