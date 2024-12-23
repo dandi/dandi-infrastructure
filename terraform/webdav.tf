@@ -1,5 +1,5 @@
 resource "heroku_app" "webdav" {
-  name   = "dandidav"
+  name   = "emberdandidav"
   region = "us"
   acm    = true
 
