@@ -10,7 +10,6 @@ module "staging_dandiset_bucket" {
     aws         = aws
     aws.project = aws
   }
-  enable_manifest_file_expiration = true
 }
 
 module "staging_embargo_bucket" {

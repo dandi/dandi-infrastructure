@@ -347,8 +347,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
   # S3 lifecycle policy that garbage collects old manifest file versions
   dynamic "rule" {
     # Only create this rule if versioning is enabled and we want to expire old manifest file versions
-    # TODO: remove enable_manifest_file_expiration once we are ready to deploy this to production
-    for_each = var.versioning && var.enable_manifest_file_expiration ? [1] : []
+    for_each = var.versioning ? [1] : []
 
     content {
       id = "ExpireOldManifestFileVersions"
