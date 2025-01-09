@@ -31,7 +31,7 @@ resource "aws_route53_record" "www" {
   name    = "www"
   type    = "CNAME"
   ttl     = "300"
-  records = ["dandi.github.io"] // TODO ?
+  records = ["dandi.github.io"]
 }
 
 resource "aws_route53_record" "email" {

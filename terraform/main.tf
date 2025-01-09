@@ -11,7 +11,7 @@ terraform {
 // This is the "project" account, the primary account with most resources
 // REDD-EMBER AWS Account
 provider "aws" {
-  region              = "us-east-2"
+  region              = "us-east-1"
   allowed_account_ids = ["503561422188"]
   # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars in Terraform
 }
@@ -21,7 +21,7 @@ provider "aws" {
 // TODO: Change to Open Data Bucket Account once we've tested
 provider "aws" {
   alias               = "sponsored"
-  region              = "us-east-2"
+  region              = "us-east-1"
   allowed_account_ids = ["886436969878"]
 
   // This will authenticate using credentials from the project account, then assume the
