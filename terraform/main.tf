@@ -1,9 +1,9 @@
 terraform {
   backend "remote" {
-    organization = "dandi"
+    organization = "BBQS-EMBER"
 
     workspaces {
-      name = "dandi-prod"
+      name = "ember-dandi-infrastructure"
     }
   }
 }
@@ -18,7 +18,7 @@ provider "aws" {
 
 // The "sponsored" account, the Amazon-sponsored account with the public bucket
 // REDD-EMBER-dev AWS Account
-// TODO: Change to Open Data Bucket Account once we've tested
+// TODO: Change to Open Data Bucket Account once we've tested (EMBER-DEV AWS account)
 provider "aws" {
   alias               = "sponsored"
   region              = "us-east-1"
@@ -27,7 +27,7 @@ provider "aws" {
   // This will authenticate using credentials from the project account, then assume the
   // "dandi-infrastructure" role from the sponsored account to manage resources there
   assume_role {
-    role_arn = "arn:aws:iam::886436969878:role/dandi-infrastructure"
+    role_arn = "arn:aws:iam::886436969878:role/dandi-infrastructure"  
   }
 
   # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars for project account in Terraform
