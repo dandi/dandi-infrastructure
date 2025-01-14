@@ -78,3 +78,11 @@ resource "aws_route53_record" "email-spf" {
   ttl     = "300"
   records = ["v=spf1 include:spf.improvmx.com ~all"]
 }
+
+resource "aws_route53_record" "bluesky" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "_atproto"
+  type    = "TXT"
+  ttl     = "300"
+  records = ["did=did:plc:5tjxaioq3ynbbynnarq5dziq"]
+}
