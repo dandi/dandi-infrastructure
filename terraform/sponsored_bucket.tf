@@ -5,7 +5,7 @@ module "sponsored_dandiset_bucket" {
   versioning                            = true
   allow_cross_account_heroku_put_object = true
   heroku_user                           = data.aws_iam_user.api
-  log_bucket_name                       = "dandi-test-ember-archive"
+  log_bucket_name                       = "dandi-test-ember-archive-logs"
   providers = {
     aws         = aws.sponsored
     aws.project = aws

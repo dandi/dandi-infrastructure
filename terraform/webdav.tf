@@ -22,10 +22,10 @@ resource "heroku_formation" "webdav_heroku_web" {
   quantity = 1
 }
 
-resource "heroku_domain" "webdav" {
-  app_id   = heroku_app.webdav.id
-  hostname = "webdav.dandiarchive.org"
-}
+// resource "heroku_domain" "webdav" {
+//   app_id   = heroku_app.webdav.id
+//   hostname = "webdav-dandi.ember-archive.org"
+// }
 
 resource "aws_route53_record" "heroku" {
   zone_id = aws_route53_zone.dandi.zone_id
