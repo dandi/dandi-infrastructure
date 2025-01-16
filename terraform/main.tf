@@ -26,9 +26,9 @@ provider "aws" {
 
   // This will authenticate using credentials from the project account, then assume the
   // "dandi-infrastructure" role from the sponsored account to manage resources there
-  // assume_role {
-  //   role_arn = "arn:aws:iam::886436969878:role/dandi-infrastructure"  
-  // }
+  assume_role {
+    role_arn = "arn:aws:iam::886436969878:role/dandi-infrastructure"  
+  }
 
   # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars for project account in Terraform
 }
