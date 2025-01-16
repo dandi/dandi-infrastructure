@@ -8,6 +8,8 @@ resource "aws_s3_bucket" "dandiset_bucket" {
 
   bucket = var.bucket_name
 
+  provider = aws
+
   lifecycle {
     prevent_destroy = true
   }
