@@ -2,7 +2,8 @@ data "aws_canonical_user_id" "log_bucket_owner_account" {}
 
 resource "aws_s3_bucket" "log_bucket" {
   bucket = var.log_bucket_name
-
+  region = "us-east-1"
+  
   lifecycle {
     prevent_destroy = true
   }
