@@ -9,7 +9,6 @@ resource "aws_s3_bucket" "dandiset_bucket" {
   bucket = var.bucket_name
 
   provider = aws
-  region = "us-east-1"
 
   lifecycle {
     prevent_destroy = true
