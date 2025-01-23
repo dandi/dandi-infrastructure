@@ -11,7 +11,6 @@ terraform {
 // This is the "project" account, the primary account with most resources
 // REDD-EMBER AWS Account
 provider "aws" {
-  alias               = "production"
   region              = "us-east-1"
   allowed_account_ids = ["503561422188"]
   # Must set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY envvars in Terraform
