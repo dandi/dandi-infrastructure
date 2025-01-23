@@ -5,7 +5,7 @@ module "api_staging" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
 
-  project_slug     = "dandi-api-staging"
+  project_slug     = "ember-dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
   subdomain_name   = "api-staging"
