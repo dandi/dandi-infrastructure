@@ -11,11 +11,11 @@ module "api" {
   route53_zone_id  = aws_route53_zone.dandi.zone_id
   subdomain_name   = "api-dandi"
 
-  heroku_web_dyno_size    = "standard-2x"
-  heroku_worker_dyno_size = "standard-2x"
-  heroku_postgresql_plan  = "standard-0"
-  heroku_cloudamqp_plan   = "squirrel-1"
-  heroku_papertrail_plan  = "liatorp"
+  heroku_web_dyno_size    = "eco" // "standard-2x"
+  heroku_worker_dyno_size = "eco" // "standard-2x"
+  heroku_postgresql_plan  = "eco" // "standard-0"
+  heroku_cloudamqp_plan   = "lemming" // "squirrel-1"
+  heroku_papertrail_plan  = "choklad" // "liatorp"
 
   heroku_web_dyno_quantity    = 3
   heroku_worker_dyno_quantity = 1
