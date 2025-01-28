@@ -2,6 +2,15 @@ resource "improvmx_domain" "dandiarchive" {
   domain = "dandiarchive.org"
 }
 
+# Retrieve and display domain check status.
+data "improvmx_domain_check" "dandiarchive" {
+  domain = improvmx_domain.dandiarchive.domain
+}
+
+output "domain_status" {
+  value = data.improvmx_domain_check.dandiarchive
+}
+
 # Set up email forwards.
 resource "improvmx_email_forward" "help" {
   domain            = improvmx_domain.dandiarchive.domain
