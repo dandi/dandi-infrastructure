@@ -38,6 +38,10 @@ provider "sentry" {
   # Must set SENTRY_AUTH_TOKEN envvar
 }
 
+provider "improvmx" {
+  # Must set IMPROVMX_API_TOKEN envvar
+}
+
 data "aws_canonical_user_id" "project_account" {}
 
 data "aws_caller_identity" "project_account" {}
