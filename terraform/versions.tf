@@ -15,7 +15,7 @@ terraform {
       source = "jianyuan/sentry"
     }
     improvmx = {
-      source  = "issyl0/improvmx"
+      source = "issyl0/improvmx"
     }
   }
 }
