@@ -81,7 +81,7 @@ resource "aws_route53_record" "email-spf" {
 
 resource "aws_route53_record" "bluesky" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "_atproto"
+  name    = "_atproto.dandiarchive.org"
   type    = "TXT"
   ttl     = "300"
   records = ["did=did:plc:5tjxaioq3ynbbynnarq5dziq"]
