@@ -86,8 +86,3 @@ resource "aws_route53_record" "bluesky" {
   ttl     = "300"
   records = ["did=did:plc:5tjxaioq3ynbbynnarq5dziq"]
 }
-
-import {
-  to = aws_route53_record.bluesky
-  id = "Z02063701JNV8GCOUJIZZ__atproto.dandiarchive.org_TXT"
-}
