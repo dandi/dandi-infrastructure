@@ -4,5 +4,5 @@ resource "aws_route53_record" "redirector" {
   name    = "gui"
   type    = "CNAME"
   ttl     = "300"
-  records = ["redirect-dandi-ember-archive-org.netlify.com"]
+  records = ["redirect-dandi-emberarchive-org.netlify.com"]
 }

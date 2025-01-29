@@ -24,7 +24,7 @@
 // 
 // resource "heroku_domain" "webdav" {
 //   app_id   = heroku_app.webdav.id
-//   hostname = "webdav-dandi.ember-archive.org"
+//   hostname = "webdav-dandi.emberarchive.org"
 // }
 // 
 // resource "aws_route53_record" "heroku" {

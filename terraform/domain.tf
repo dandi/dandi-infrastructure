@@ -23,7 +23,7 @@ resource "aws_route53_record" "gui-staging" {
   name    = "gui-staging"
   type    = "CNAME"
   ttl     = "300"
-  records = ["gui-staging-dandi-emberarchive-org.netlify.com"]
+  records = ["gui-dandi-staging-emberarchive-org.netlify.com"]
 }
 
 resource "aws_route53_record" "www" {
