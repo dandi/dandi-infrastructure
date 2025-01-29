@@ -6,7 +6,7 @@ module "api" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
 
-  project_slug     = "ember-dandi-app"
+  project_slug     = "ember-dandi-api"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
   subdomain_name   = "api-dandi"
@@ -21,8 +21,8 @@ module "api" {
   heroku_worker_dyno_quantity = 1
 
   django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
-  django_cors_origin_whitelist       = ["https://dandi.ember-archive.org"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-ember-archive-org\\.netlify\\.app$"]
+  django_cors_origin_whitelist       = ["https://dandi.emberarchive.org"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-emberarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuProductionConfiguration"
@@ -39,9 +39,9 @@ module "api" {
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "4"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://dandi.ember-archive.org"
-    DJANGO_DANDI_API_URL                           = "https://api-dandi.ember-archive.org"
-    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.ember-archive.org/"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://dandi.emberarchive.org"
+    DJANGO_DANDI_API_URL                           = "https://api-dandi.emberarchive.org"
+    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.emberarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
   }
   additional_sensitive_django_vars = {
