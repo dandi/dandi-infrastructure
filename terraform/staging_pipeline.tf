@@ -12,7 +12,7 @@ module "api_staging" {
 
   heroku_web_dyno_size    = "eco" // "basic"
   heroku_worker_dyno_size = "eco" // "basic"
-  heroku_postgresql_plan  = "eco" // "essential-1"
+  heroku_postgresql_plan  = "essential-0" // "essential-1"
   heroku_cloudamqp_plan   = "lemming" // "tiger"
   heroku_papertrail_plan  = "choklad" // "fixa"
 

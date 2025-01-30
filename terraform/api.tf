@@ -13,7 +13,7 @@ module "api" {
 
   heroku_web_dyno_size    = "eco" // "standard-2x"
   heroku_worker_dyno_size = "eco" // "standard-2x"
-  heroku_postgresql_plan  = "eco" // "standard-0"
+  heroku_postgresql_plan  = "essential-0" // "standard-0"
   heroku_cloudamqp_plan   = "lemming" // "squirrel-1"
   heroku_papertrail_plan  = "choklad" // "liatorp"
 
