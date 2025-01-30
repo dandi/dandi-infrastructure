@@ -4,10 +4,10 @@ resource "aws_route53_zone" "dandi" {
 
 resource "aws_route53_record" "acm_validation" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "_755ff606dac73e69c5c10c5139ec3c10"
+  name    = "_2ab953c925117985ed729c889a811e82"
   type    = "CNAME"
   ttl     = "300"
-  records = ["_f069d074ef9a310884fa16f77695324f.zfyfvmchrl.acm-validations.aws."]
+  records = ["_369acdcce1e63f94431388fcc713b029.zfyfvmchrl.acm-validations.aws."]
 }
 
 resource "aws_route53_record" "gui" {
@@ -51,4 +51,20 @@ resource "aws_route53_record" "email-spf" {
   type    = "TXT"
   ttl     = "300"
   records = ["v=spf1 include:spf.improvmx.com ~all"]
+}
+
+resource "aws_route53_record" "api-dandi-staging-heroku-app" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "api-dandi-staging"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dry-waters-tfs5sbdos7ion2o6614l4dcm.herokudns.com"]
+}
+
+resource "aws_route53_record" "api-dandi-heroku-app" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "api-dandi"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["corrugated-gorilla-f2e8ls3ewsw7fv2ilslqkij0.herokudns.com"]
 }
