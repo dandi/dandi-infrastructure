@@ -17,7 +17,7 @@ module "api" {
   heroku_cloudamqp_plan   = "lemming" // "squirrel-1"
   heroku_papertrail_plan  = "choklad" // "liatorp"
 
-  heroku_web_dyno_quantity    = 3
+  heroku_web_dyno_quantity    = 1 // 3 - getting error that >1 basic dyno is not allowed
   heroku_worker_dyno_quantity = 1
 
   django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
