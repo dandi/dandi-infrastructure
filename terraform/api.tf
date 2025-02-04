@@ -11,8 +11,8 @@ module "api" {
   route53_zone_id  = aws_route53_zone.dandi.zone_id
   subdomain_name   = "api-dandi"
 
-  heroku_web_dyno_size    = "eco" // "standard-2x"
-  heroku_worker_dyno_size = "eco" // "standard-2x"
+  heroku_web_dyno_size    = "basic" // "standard-2x"
+  heroku_worker_dyno_size = "basic" // "standard-2x"
   heroku_postgresql_plan  = "essential-0" // "standard-0"
   heroku_cloudamqp_plan   = "lemming" // "squirrel-1"
   heroku_papertrail_plan  = "choklad" // "liatorp"
@@ -52,14 +52,14 @@ module "api" {
 resource "heroku_formation" "api_checksum_worker" {
   app_id   = module.api.heroku_app_id
   type     = "checksum-worker"
-  size     = "standard-2x"
+  size     = "basic" // "standard-2x"
   quantity = 1
 }
 
 resource "heroku_formation" "api_analytics_worker" {
   app_id   = module.api.heroku_app_id
   type     = "analytics-worker"
-  size     = "standard-1x"
+  size     = "basic" // "standard-1x"
   quantity = 1
 }
 

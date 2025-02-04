@@ -12,7 +12,7 @@ resource "aws_route53_record" "acm_validation" {
 
 resource "aws_route53_record" "gui" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "" # apex
+  name    = "dandi" # apex
   type    = "A"
   ttl     = "300"
   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
@@ -36,7 +36,7 @@ resource "aws_route53_record" "www" {
 
 resource "aws_route53_record" "email" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "" # apex
+  name    = "dandi" # apex
   type    = "MX"
   ttl     = "300"
   records = [
