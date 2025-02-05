@@ -53,18 +53,18 @@ resource "aws_route53_record" "email-spf" {
   records = ["v=spf1 include:spf.improvmx.com ~all"]
 }
 
-//resource "aws_route53_record" "api-dandi-staging-heroku-app" {
-//  zone_id = aws_route53_zone.dandi.zone_id
-//  name    = "api-dandi-staging"
-//  type    = "CNAME"
-// ttl     = "300"
-// records = ["dry-waters-tfs5sbdos7ion2o6614l4dcm.herokudns.com"]
-//}
+resource "aws_route53_record" "api-dandi-staging-heroku-app" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "api-dandi-staging"
+  type    = "CNAME"
+ ttl     = "300"
+ records = ["dry-waters-tfs5sbdos7ion2o6614l4dcm.herokudns.com"]
+}
 
-//resource "aws_route53_record" "api-dandi-heroku-app" {
-//  zone_id = aws_route53_zone.dandi.zone_id
-//  name    = "api-dandi"
-//  type    = "CNAME"
-//  ttl     = "300"
-//  records = ["corrugated-gorilla-f2e8ls3ewsw7fv2ilslqkij0.herokudns.com"]
-//}
+resource "aws_route53_record" "api-dandi-heroku-app" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "api-dandi"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["corrugated-gorilla-f2e8ls3ewsw7fv2ilslqkij0.herokudns.com"]
+}
