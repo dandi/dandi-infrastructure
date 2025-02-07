@@ -13,13 +13,13 @@ module "api_staging" {
   heroku_web_dyno_size    = "basic"
   heroku_worker_dyno_size = "basic"
   heroku_postgresql_plan  = "essential-0" // "essential-1"
-  heroku_cloudamqp_plan   = "lemming" // "tiger"
+  heroku_cloudamqp_plan   = "ermine" // "tiger"
   heroku_papertrail_plan  = "choklad" // "fixa"
 
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
+  django_default_from_email          = "admin@api-dandi-staging.emberarchive.org"
   django_cors_origin_whitelist       = ["https://gui-dandi-staging.emberarchive.org"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-staging.emberarchive-org\\.netlify\\.app$"]
 

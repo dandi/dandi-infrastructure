@@ -14,13 +14,13 @@ module "api" {
   heroku_web_dyno_size    = "basic" // "standard-2x"
   heroku_worker_dyno_size = "basic" // "standard-2x"
   heroku_postgresql_plan  = "essential-0" // "standard-0"
-  heroku_cloudamqp_plan   = "lemming" // "squirrel-1"
+  heroku_cloudamqp_plan   = "ermine" // "squirrel-1"
   heroku_papertrail_plan  = "choklad" // "liatorp"
 
   heroku_web_dyno_quantity    = 1 // 3 - getting error that >1 basic dyno is not allowed
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
+  django_default_from_email          = "admin@api-dandi.emberarchive.org"
   django_cors_origin_whitelist       = ["https://dandi.emberarchive.org"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-emberarchive-org\\.netlify\\.app$"]
 
