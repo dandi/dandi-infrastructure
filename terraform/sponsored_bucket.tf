@@ -14,12 +14,12 @@ module "sponsored_dandiset_bucket" {
 
 module "sponsored_embargo_bucket" {
   source          = "./modules/dandiset_bucket"
-  bucket_name     = "ember-dandi-archive-embargo"
+  bucket_name     = "ember-dandi-archive-private"
   versioning      = false
   heroku_user     = data.aws_iam_user.api
-  log_bucket_name = "ember-dandi-archive-embargo-logs"
+  log_bucket_name = "ember-dandi-archive-private-logs"
   providers = {
-    aws         = aws.sponsored
+    aws         = aws
     aws.project = aws
   }
 }
