@@ -31,7 +31,33 @@ resource "aws_route53_record" "www" {
   name    = "www"
   type    = "CNAME"
   ttl     = "300"
-  records = ["dandi.github.io"]
+  records = ["gui-dandiarchive-org.netlify.app."]
+}
+
+# This resource block and the next are using GitHub's custom domain
+# redirection.
+resource "aws_route53_record" "about" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "about"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dandi.github.io."]
+}
+
+resource "aws_route53_record" "docs" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "docs"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dandi.github.io."]
+}
+
+resource "aws_route53_record" "status" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "status"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dandi.github.io."]
 }
 
 resource "aws_route53_record" "email" {
@@ -52,6 +78,14 @@ resource "aws_route53_record" "email-spf" {
   ttl     = "300"
   records = ["v=spf1 include:spf.improvmx.com ~all"]
 }
+
+# resource "aws_route53_record" "bluesky" {
+#   zone_id = aws_route53_zone.dandi.zone_id
+#   name    = "_atproto.dandiarchive.org"
+#   type    = "TXT"
+#   ttl     = "300"
+#   records = ["did=did:plc:5tjxaioq3ynbbynnarq5dziq"]
+# }
 
 resource "aws_route53_record" "api-dandi-staging-heroku-app" {
   zone_id = aws_route53_zone.dandi.zone_id
