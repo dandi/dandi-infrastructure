@@ -20,7 +20,7 @@ module "api" {
   heroku_web_dyno_quantity    = 1 // 3 - getting error that >1 basic dyno is not allowed
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "bbqs-ember-admin@jhuapl.edu"
+  django_default_from_email          = "admin@api-dandi.emberarchive.org"
   django_cors_origin_whitelist       = ["https://dandi.emberarchive.org", "https://neurosift.app"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-emberarchive-org\\.netlify\\.app$"]
 
