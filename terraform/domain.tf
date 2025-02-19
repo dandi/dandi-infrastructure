@@ -62,7 +62,7 @@ resource "aws_route53_record" "status" {
 
 resource "aws_route53_record" "email" {
   zone_id = aws_route53_zone.dandi.zone_id
-  name    = "dandi" # apex
+  name    = "" # apex
   type    = "MX"
   ttl     = "300"
   records = [
