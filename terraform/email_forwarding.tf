@@ -1,4 +1,4 @@
-resource "improvmx_domain" "dandiarchive" {
+data "improvmx_domain" "dandiarchive" {
   domain = "emberarchive.org"
 }
 
