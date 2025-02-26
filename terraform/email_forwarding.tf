@@ -1,6 +1,6 @@
-// resource "improvmx_domain" "dandiarchive" {
-//   domain = "emberarchive.org"
-// }
+resource "improvmx_domain" "dandiarchive" {
+  domain = "emberarchive.org"
+}
 
 # Set up email forwards.
 resource "improvmx_email_forward" "help" {
