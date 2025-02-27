@@ -14,6 +14,11 @@ resource "improvmx_email_forward" "help" {
   destination_email = "emberarchive@jhuapl.edu"
 }
 
+import {
+  to = improvmx_email_forward.help
+  id = "emberarchive.org_help"
+}
+
 resource "improvmx_email_forward" "info" {
   domain            = improvmx_domain.dandiarchive.domain
   alias_name        = "info"
@@ -25,15 +30,24 @@ import {
   id = "emberarchive.org_info"
 }
 
+resource "improvmx_email_forward" "team" {
+  domain            = improvmx_domain.dandiarchive.domain
+  alias_name        = "team"
+  destination_email = "emberarchive@jhuapl.edu"
+}
 
-//resource "improvmx_email_forward" "team" {
-//  domain            = improvmx_domain.dandiarchive.domain
-//  alias_name        = "team"
-//  destination_email = "emberarchive@jhuapl.edu"
-//}
+import {
+  to = improvmx_email_forward.team
+  id = "emberarchive.org_team"
+}
 
-//resource "improvmx_email_forward" "community" {
-//  domain            = improvmx_domain.dandiarchive.domain
-//  alias_name        = "community"
-//  destination_email = "emberarchive@jhuapl.edu"
-//}
+resource "improvmx_email_forward" "community" {
+  domain            = improvmx_domain.dandiarchive.domain
+  alias_name        = "community"
+  destination_email = "emberarchive@jhuapl.edu"
+}
+
+import {
+  to = improvmx_email_forward.community
+  id = "emberarchive.org_community"
+}
