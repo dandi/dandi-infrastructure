@@ -8,11 +8,11 @@ import {
 }
 
 # Set up email forwards.
-//resource "improvmx_email_forward" "help" {
-//  domain            = improvmx_domain.dandiarchive.domain
-//  alias_name        = "help"
-//  destination_email = "emberarchive@jhuapl.edu"
-//}
+resource "improvmx_email_forward" "help" {
+  domain            = improvmx_domain.dandiarchive.domain
+  alias_name        = "help"
+  destination_email = "emberarchive@jhuapl.edu"
+}
 
 resource "improvmx_email_forward" "info" {
   domain            = improvmx_domain.dandiarchive.domain
