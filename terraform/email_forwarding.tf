@@ -36,10 +36,10 @@ resource "improvmx_email_forward" "team" {
   destination_email = "emberarchive@jhuapl.edu"
 }
 
-// import {
-//   to = improvmx_email_forward.team
-//   id = "emberarchive.org_team"
-// }
+import {
+  to = improvmx_email_forward.team
+  id = "emberarchive.org_team"
+}
 
 resource "improvmx_email_forward" "community" {
   domain            = improvmx_domain.dandiarchive.domain
