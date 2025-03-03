@@ -3,17 +3,17 @@
 
 import {
   to = module.api_staging.module.heroku.heroku_domain.heroku
-  id = "ember-dandi-api-staging:api-dandi-staging.emberarchive.org"
+  id = "ember-dandi-api-sandbox:api-dandi-sandbox.emberarchive.org"
 }
 
 module "api_staging" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
 
-  project_slug     = "ember-dandi-api-staging"
+  project_slug     = "ember-dandi-api-sandbox"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
-  subdomain_name   = "api-dandi-staging"
+  subdomain_name   = "api-dandi-sandbox"
 
   heroku_web_dyno_size    = "basic"
   heroku_worker_dyno_size = "basic"
@@ -24,9 +24,9 @@ module "api_staging" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api-dandi-staging.emberarchive.org"
-  django_cors_origin_whitelist       = ["https://gui-dandi-staging.emberarchive.org", "https://neurosift.app"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-staging.emberarchive-org\\.netlify\\.app$"]
+  django_default_from_email          = "admin@api-dandi-sandbox.emberarchive.org"
+  django_cors_origin_whitelist       = ["https://gui-dandi-sandbox.emberarchive.org", "https://neurosift.app"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-sandbox.emberarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
@@ -43,8 +43,8 @@ module "api_staging" {
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "2"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-dandi-staging.emberarchive.org"
-    DJANGO_DANDI_API_URL                           = "https://api-dandi-staging.emberarchive.org"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-dandi-sandbox.emberarchive.org"
+    DJANGO_DANDI_API_URL                           = "https://api-dandi-sandbox.emberarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.emberarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
   }
