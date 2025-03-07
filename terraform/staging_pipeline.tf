@@ -42,6 +42,7 @@ module "api_staging" {
     DJANGO_DANDI_API_URL                           = "https://api-staging.dandiarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
+    DJANGO_DANDI_ADMIN_EMAIL                       = "info@dandiarchive.org"
   }
   additional_sensitive_django_vars = {
     DJANGO_DANDI_DOI_API_PASSWORD = var.test_doi_api_password
