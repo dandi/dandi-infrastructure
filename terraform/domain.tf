@@ -71,7 +71,7 @@ resource "aws_route53_record" "email" {
   ]
 }
 
-resource "aws_route53_record" "txt_record" {
+resource "aws_route53_record" "email-spf" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "" # apex
   type    = "TXT"
