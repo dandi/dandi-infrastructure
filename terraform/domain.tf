@@ -71,12 +71,15 @@ resource "aws_route53_record" "email" {
   ]
 }
 
-resource "aws_route53_record" "email-spf" {
+resource "aws_route53_record" "txt_record" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "" # apex
   type    = "TXT"
   ttl     = "300"
-  records = ["v=spf1 include:spf.improvmx.com ~all"]
+  records = [
+    "v=spf1 include:spf.improvmx.com ~all",
+    "google-site-verification=PRleUQ6hPcZFE9qVEQ0koOrCWMNwnMHz7QXWV5UDpFU",
+  ]
 }
 
 resource "aws_route53_record" "bluesky" {
