@@ -19,7 +19,7 @@ module "api" {
   heroku_web_dyno_size    = "basic" // "standard-2x"
   heroku_worker_dyno_size = "basic" // "standard-2x"
   heroku_postgresql_plan  = "essential-0" // "standard-0"
-  heroku_cloudamqp_plan   = "squirrel-1" // we had ermine and it was too small
+  heroku_cloudamqp_plan   = "ermine" // originally had squirrel-1 
   heroku_papertrail_plan  = "choklad" // "liatorp"
 
   heroku_web_dyno_quantity    = 1 // 3 - getting error that >1 basic dyno is not allowed
