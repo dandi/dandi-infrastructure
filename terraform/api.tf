@@ -37,10 +37,10 @@ module "api" {
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_PREFIX   = ""
     DJANGO_DANDI_DANDISETS_LOG_BUCKET_NAME         = module.sponsored_dandiset_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.sponsored_embargo_bucket.log_bucket_name
-    DJANGO_DANDI_DOI_API_URL                       = "https://api.datacite.org/dois" // TODO ??
-    DJANGO_DANDI_DOI_API_USER                      = "JHU.BOSSDB"
-    DJANGO_DANDI_DOI_API_PREFIX                    = "10.60533"
-    DJANGO_DANDI_DOI_PUBLISH                       = "true"
+    DJANGO_DANDI_DOI_API_URL                       = "https://api.test.datacite.org/dois" // TODO ??
+    DJANGO_DANDI_DOI_API_USER                      = "JHU.NXHEVY"
+    DJANGO_DANDI_DOI_API_PREFIX                    = "10.82754"
+    DJANGO_DANDI_DOI_PUBLISH                       = "true"    
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "4"
