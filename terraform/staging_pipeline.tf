@@ -43,7 +43,7 @@ module "api_staging" {
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "2"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-dandi-sandbox.emberarchive.org"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://apl-setup--ember-dandi-archive.netlify.app/"   # was "https://gui-dandi-sandbox.emberarchive.org"
     DJANGO_DANDI_API_URL                           = "https://api-dandi-sandbox.emberarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub-dandi.emberarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
