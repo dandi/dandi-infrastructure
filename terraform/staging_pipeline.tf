@@ -25,8 +25,9 @@ module "api_staging" {
   heroku_worker_dyno_quantity = 1
 
   django_default_from_email          = "admin@api-dandi-sandbox.emberarchive.org"
-  django_cors_origin_whitelist       = ["https://gui-dandi-sandbox.emberarchive.org", "https://neurosift.app"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-sandbox.emberarchive-org\\.netlify\\.app$"]
+  django_cors_origin_whitelist       = ["https://apl-setup--ember-dandi-archive.org", "https://neurosift.app"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandi-sandbox.emberarchive-org\\.netlify\\.app$",
+                                        "^https:\\/\\/[0-9a-z\\-]+--ember-dandi-archive\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
