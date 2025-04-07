@@ -78,7 +78,7 @@ resource "aws_route53_record" "email-spf" {
   ttl     = "300"
   records = [
     "v=spf1 include:spf.improvmx.com ~all",
-    "google-site-verification=PRleUQ6hPcZFE9qVEQ0koOrCWMNwnMHz7QXWV5UDpFU",
+    # "google-site-verification=PRleUQ6hPcZFE9qVEQ0koOrCWMNwnMHz7QXWV5UDpFU",
   ]
 }
 
