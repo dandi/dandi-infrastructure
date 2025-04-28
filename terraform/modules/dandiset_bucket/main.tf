@@ -321,7 +321,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     ]
 
     condition {
-      test     = "StringEquals"
+      test     = "Bool"
       variable = "aws:SecureTransport"
       values   = ["false"]
     }
