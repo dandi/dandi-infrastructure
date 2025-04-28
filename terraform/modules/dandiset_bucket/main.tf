@@ -308,7 +308,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
   }
 
   # APL policy
-  dynamic "statement" {
+  statement {
     content {
       sid = "AllowSSLRequestsOnly"
 
