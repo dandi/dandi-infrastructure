@@ -309,30 +309,28 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
 
   # APL policy
   statement {
-    content {
-      sid = "AllowSSLRequestsOnly"
+    sid = "AllowSSLRequestsOnly"
 
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}",
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}",
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
 
-      actions = [
-        "s3:*",
-      ]
+    actions = [
+      "s3:*",
+    ]
 
-      condition {
-        test     = "StringEquals"
-        variable = "aws:SecureTransport"
-        values   = ["false"]
-      }
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
 
-      effect = "Deny"
+    effect = "Deny"
 
-      principals {
-        identifiers = ["*"]
-        type        = "*"
-      }
+    principals {
+      identifiers = ["*"]
+      type        = "*"
     }
   }
 }
