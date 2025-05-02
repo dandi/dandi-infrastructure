@@ -12,6 +12,17 @@ module "staging_dandiset_bucket" {
   }
 }
 
+import {
+  to = staging_dandiset_bucket.bucket_name
+  id = "ember-open-data-sandbox"
+}
+
+import {
+  to = staging_dandiset_bucket.log_bucket_name
+  id = "ember-open-data-sandbox-logs"
+}
+
+
 module "staging_embargo_bucket" {
   source          = "./modules/dandiset_bucket"
   bucket_name     = "ember-dandi-api-sandbox-private-dandisets"
