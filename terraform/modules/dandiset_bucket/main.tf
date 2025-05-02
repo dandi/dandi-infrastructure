@@ -395,6 +395,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
 
       # Noncurrent versions actions - none
       # noncurrent_version_transition {}
+
+      status = "Enabled"
     }
   }
 
@@ -420,6 +422,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
       abort_incomplete_multipart_upload {
         days_after_initiation = 7
       }
+
+      status = "Enabled"
     }
   }
 }
