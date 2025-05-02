@@ -26,6 +26,12 @@ variable "versioning" {
   description = "Whether or not versioning should be enabled on the bucket."
 }
 
+variable "aws_open_data" {
+  type        = bool
+  default     = false
+  description = "Whether or not bucket is uses AWS Open Data rules."
+}
+
 variable "heroku_user" {
   description = "The Heroku API IAM user who will have write access to the bucket."
 }
