@@ -307,9 +307,9 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     }
   }
 
-  # APL policy
+  # APL ITSD Managed policy
   statement {
-    # sid = "AllowSSLRequestsOnly"
+    sid = "AllowSSLRequestsOnly"
 
     resources = [
       "${aws_s3_bucket.dandiset_bucket.arn}",
