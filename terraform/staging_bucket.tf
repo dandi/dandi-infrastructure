@@ -1,11 +1,11 @@
 module "staging_dandiset_bucket" {
   source                  = "./modules/dandiset_bucket"
-  bucket_name             = "ember-dandi-api-sandbox-dandisets"
+  bucket_name             = "ember-open-data-sandbox"
   public                  = true
   versioning              = true
   allow_heroku_put_object = true
   heroku_user             = data.aws_iam_user.api_staging
-  log_bucket_name         = "ember-dandi-api-sandbox-dandiset-logs"
+  log_bucket_name         = "ember-open-data-sandbox-logs"
   providers = {
     aws         = aws
     aws.project = aws
