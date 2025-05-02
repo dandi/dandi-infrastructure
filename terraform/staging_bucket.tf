@@ -13,12 +13,12 @@ module "staging_dandiset_bucket" {
 }
 
 import {
-  to = aws_s3_bucket.staging_dandiset_bucket.bucket_name
+  to = module.staging_dandiset_bucket.aws_s3_bucket.dandiset_bucket
   id = "ember-open-data-sandbox"
 }
 
 import {
-  to = aws_s3_bucket.staging_dandiset_bucket.log_bucket_name
+  to = module.staging_dandiset_bucket.aws_s3_bucket.log_bucket
   id = "ember-open-data-sandbox-logs"
 }
 
