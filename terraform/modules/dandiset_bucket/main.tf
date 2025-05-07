@@ -305,6 +305,33 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
       }
     }
   }
+
+  # APL ITSD Managed policy
+  statement {
+    sid = "AllowSSLRequestsOnly"
+
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}",
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
+
+    actions = [
+      "s3:*",
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+
+    effect = "Deny"
+
+    principals {
+      identifiers = ["*"]
+      type        = "*"
+    }
+  }
 }
 
 

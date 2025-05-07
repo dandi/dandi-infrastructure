@@ -60,6 +60,33 @@ data "aws_iam_policy_document" "dandiset_log_bucket_policy" {
       identifiers = ["logging.s3.amazonaws.com"]
     }
   }
+
+  # APL ITSD Managed policy
+  statement {
+    sid = "AllowSSLRequestsOnly"
+
+    resources = [
+      "${aws_s3_bucket.log_bucket.arn}",
+      "${aws_s3_bucket.log_bucket.arn}/*",
+    ]
+
+    actions = [
+      "s3:*",
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+
+    effect = "Deny"
+
+    principals {
+      identifiers = ["*"]
+      type        = "*"
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "dandiset_log_bucket_policy" {
