@@ -42,9 +42,8 @@ resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
     allowed_headers = [
       "*"
     ]
-    expose_headers = [
-      "ETag",
-    ]
+    expose_headers = var.aws_open_data ? ["ETag", "x-amz-meta-custom-header"] : ["ETag"]
+
     max_age_seconds = 3000
   }
 }
@@ -340,7 +339,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
   # Must have bucket versioning enabled first
   depends_on = [aws_s3_bucket_versioning.dandiset_bucket]
 
-  count = var.versioning ? 1 : 0
+  count = (var.versioning || var.aws_open_data) ? 1 : 0
 
   bucket = aws_s3_bucket.dandiset_bucket.id
 
@@ -396,6 +395,58 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
       # Also delete any delete markers associated with the expired object
       expiration {
         expired_object_delete_marker = true
+      }
+
+      status = "Enabled"
+    }
+  }
+
+  #  S3 lifecycle policy that moves objects into Intelligent Tiering
+  dynamic "rule" {
+    # Only create this rule if aws_open_data is set to true
+    for_each = var.aws_open_data ? [1] : []
+
+    content {
+      id = "IntelligentTieringRule"
+      filter {
+        # All objects
+        prefix = ""
+      }
+
+      # Current versions actions - move objects to Intelligent-Tiering on day 0
+      transition {
+        days = 0
+        storage_class = "INTELLIGENT_TIERING"
+      }
+
+      # Noncurrent versions actions - none
+      # noncurrent_version_transition {}
+
+      status = "Enabled"
+    }
+  }
+
+  #  S3 lifecycle policy that aborts incomplete multipart uploads
+  dynamic "rule" {
+    # Only create this rule if aws_open_data is set to target_bucket
+    for_each = var.aws_open_data ? [1] : []
+
+    content {
+      id = "AbortIncompleteMultipartUploadRule"
+      filter {
+        # All objects
+        prefix = ""
+      }
+
+      # Current versions actions - none
+      # transition {}
+
+      # Noncurrent versions actions - none
+      # noncurrent_version_transition {}
+
+      # Incomplete Multipart uploads - Delete after day 7
+      abort_incomplete_multipart_upload {
+        days_after_initiation = 7
       }
 
       status = "Enabled"
