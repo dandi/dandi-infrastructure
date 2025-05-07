@@ -42,9 +42,8 @@ resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
     allowed_headers = [
       "*"
     ]
-    expose_headers = [
-      "ETag",
-    ]
+    expose_headers = var.aws_open_data ? ["ETag", "x-amz-meta-custom-header"] : ["ETag"]
+
     max_age_seconds = 3000
   }
 }
