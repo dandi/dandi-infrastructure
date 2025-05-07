@@ -69,7 +69,7 @@ resource "aws_s3_bucket_ownership_controls" "dandiset_bucket" {
   bucket = aws_s3_bucket.dandiset_bucket.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = var.aws_open_data ? "BucketOwnerEnforced" : "BucketOwnerPreferred"
   }
 }
 
