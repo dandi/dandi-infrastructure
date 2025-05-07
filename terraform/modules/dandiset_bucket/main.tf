@@ -343,6 +343,59 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
 
   bucket = aws_s3_bucket.dandiset_bucket.id
 
+
+  #  S3 lifecycle policy that moves objects into Intelligent Tiering
+  dynamic "rule" {
+    # Only create this rule if aws_open_data is set to true
+    for_each = var.aws_open_data ? [1] : []
+
+    content {
+      id = "IntelligentTieringRule"
+      filter {
+        # All objects
+        prefix = ""
+      }
+
+      # Current versions actions - move objects to Intelligent-Tiering on day 0
+      transition {
+        days = 0
+        storage_class = "INTELLIGENT_TIERING"
+      }
+
+      # Noncurrent versions actions - none
+      # noncurrent_version_transition {}
+
+      status = "Enabled"
+    }
+  }
+
+  #  S3 lifecycle policy that aborts incomplete multipart uploads
+  dynamic "rule" {
+    # Only create this rule if aws_open_data is set to target_bucket
+    for_each = var.aws_open_data ? [1] : []
+
+    content {
+      id = "AbortIncompleteMultipartUploadRule"
+      filter {
+        # All objects
+        prefix = ""
+      }
+
+      # Current versions actions - none
+      # transition {}
+
+      # Noncurrent versions actions - none
+      # noncurrent_version_transition {}
+
+      # Incomplete Multipart uploads - Delete after day 7
+      abort_incomplete_multipart_upload {
+        days_after_initiation = 7
+      }
+
+      status = "Enabled"
+    }
+  }
+
   # S3 lifecycle policy that permanently deletes objects with delete markers
   # after 30 days. Note, this only applies to objects with the `blobs/` prefix.
   # Based on https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html#lifecycle-config-conceptual-ex7
@@ -395,58 +448,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
       # Also delete any delete markers associated with the expired object
       expiration {
         expired_object_delete_marker = true
-      }
-
-      status = "Enabled"
-    }
-  }
-
-  #  S3 lifecycle policy that moves objects into Intelligent Tiering
-  dynamic "rule" {
-    # Only create this rule if aws_open_data is set to true
-    for_each = var.aws_open_data ? [1] : []
-
-    content {
-      id = "IntelligentTieringRule"
-      filter {
-        # All objects
-        prefix = ""
-      }
-
-      # Current versions actions - move objects to Intelligent-Tiering on day 0
-      transition {
-        days = 0
-        storage_class = "INTELLIGENT_TIERING"
-      }
-
-      # Noncurrent versions actions - none
-      # noncurrent_version_transition {}
-
-      status = "Enabled"
-    }
-  }
-
-  #  S3 lifecycle policy that aborts incomplete multipart uploads
-  dynamic "rule" {
-    # Only create this rule if aws_open_data is set to target_bucket
-    for_each = var.aws_open_data ? [1] : []
-
-    content {
-      id = "AbortIncompleteMultipartUploadRule"
-      filter {
-        # All objects
-        prefix = ""
-      }
-
-      # Current versions actions - none
-      # transition {}
-
-      # Noncurrent versions actions - none
-      # noncurrent_version_transition {}
-
-      # Incomplete Multipart uploads - Delete after day 7
-      abort_incomplete_multipart_upload {
-        days_after_initiation = 7
       }
 
       status = "Enabled"
