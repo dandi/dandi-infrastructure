@@ -35,6 +35,7 @@ module "api_staging" {
     DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
     DJANGO_DANDI_DOI_API_PREFIX                    = "10.80507"
     DJANGO_DANDI_DOI_PUBLISH                       = "false"
+    DJANGO_DANDI_INSTANCE_NAME                     = "DANDI-STAGING"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "2"

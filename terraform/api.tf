@@ -36,6 +36,7 @@ module "api" {
     DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
     DJANGO_DANDI_DOI_API_PREFIX                    = "10.48324"
     DJANGO_DANDI_DOI_PUBLISH                       = "true"
+    DJANGO_DANDI_INSTANCE_NAME                     = "DANDI"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "4"
