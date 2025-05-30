@@ -24,6 +24,8 @@ module "api_staging" {
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
+    DANDI_INSTANCE_NAME                            = "DANDI-STAGING"
+    DANDI_DOI_PREFIX                               = "10.80507"
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
     DJANGO_DANDI_DANDISETS_BUCKET_NAME             = module.staging_dandiset_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_BUCKET_PREFIX           = ""
