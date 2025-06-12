@@ -23,13 +23,24 @@ import {
   id = "ember-open-data-sandbox-logs"
 }
 
-
 module "staging_embargo_bucket" {
   source          = "./modules/dandiset_bucket"
   bucket_name     = "ember-dandi-api-sandbox-private-dandisets"
   versioning      = false
   heroku_user     = data.aws_iam_user.api_staging
   log_bucket_name = "ember-dandi-api-sandbox-private-dandisets-logs"
+  providers = {
+    aws         = aws
+    aws.project = aws
+  }
+}
+
+module "staging_private_bucket" {
+  source          = "./modules/dandiset_bucket"
+  bucket_name     = "ember-dandi-sandbox-private"
+  versioning      = false
+  heroku_user     = data.aws_iam_user.api_staging
+  log_bucket_name = "ember-dandi-sandbox-private-logs"
   providers = {
     aws         = aws
     aws.project = aws
