@@ -2,10 +2,10 @@ data "heroku_team" "dandi" {
   name = "ember-dandi"
 }
 
-import {
-  to = module.api.module.heroku.heroku_domain.heroku
-  id = "ember-dandi-api:api-dandi.emberarchive.org"
-}
+# import {
+#   to = module.api.module.heroku.heroku_domain.heroku
+#   id = "ember-dandi-api:api-dandi.emberarchive.org"
+# }
 
 module "api" {
   source  = "kitware-resonant/resonant/heroku"
