@@ -23,13 +23,13 @@ import {
   id = "ember-open-data-sandbox-logs"
 }
 
-
+# Note: this bucket is no longer being used
 module "staging_embargo_bucket" {
   source          = "./modules/dandiset_bucket"
-  bucket_name     = "ember-dandi-api-sandbox-private-dandisets"
+  bucket_name     = "ember-dandi-api-sandbox-embargo-dandisets"
   versioning      = false
   heroku_user     = data.aws_iam_user.api_staging
-  log_bucket_name = "ember-dandi-api-sandbox-private-dandisets-logs"
+  log_bucket_name = "ember-dandi-api-sandbox-embargo-dandisets-logs"
   providers = {
     aws         = aws
     aws.project = aws
