@@ -1,10 +1,10 @@
 # See api.tf for the definition of the production app
 
 
-import {
-  to = module.api_staging.module.heroku.heroku_domain.heroku
-  id = "ember-dandi-api-sandbox:api-dandi-sandbox.emberarchive.org"
-}
+# import {
+#   to = module.api_staging.module.heroku.heroku_domain.heroku
+#   id = "ember-dandi-api-sandbox:api-dandi-sandbox.emberarchive.org"
+# }
 
 module "api_staging" {
   source  = "kitware-resonant/resonant/heroku"
