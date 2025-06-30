@@ -36,7 +36,6 @@ module "api" {
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_NAME     = module.sponsored_embargo_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_BUCKET_PREFIX   = ""
     DJANGO_DANDI_DANDISETS_PRIVATE_BUCKET_NAME     = module.private_bucket.bucket_name
-    DJANGO_DANDI_DANDISETS_PRIVATE_BUCKET_PREFIX   = ""
     DJANGO_DANDI_DANDISETS_LOG_BUCKET_NAME         = module.sponsored_dandiset_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.sponsored_embargo_bucket.log_bucket_name
     DJANGO_DANDI_DANDISETS_PRIVATE_LOG_BUCKET_NAME = module.private_bucket.log_bucket_name
