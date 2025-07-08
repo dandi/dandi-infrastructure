@@ -20,8 +20,16 @@ module "api" {
   heroku_web_dyno_quantity    = 3
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://dandiarchive.org", "https://neurosift.app"]
+  # TODO: move to variables.tf?
+  dandi_instance_name                = "dandi"
+  dandi_instance_tld                 = "dandiarhive.org"
+  dandi_instance_datacite_id         = "48324"
+ 
+  # TODO: could we define for reuse below?
+  dandi_instance_url                 = "https://${var.dandi_instance_tld}"
+  
+  django_default_from_email          = "admin@api.${dandi_instance_tld}"
+  django_cors_origin_whitelist       = [dandi_instance_url, "https://neurosift.app"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
@@ -34,16 +42,18 @@ module "api" {
     DJANGO_DANDI_DANDISETS_EMBARGO_LOG_BUCKET_NAME = module.sponsored_embargo_bucket.log_bucket_name
     DJANGO_DANDI_DOI_API_URL                       = "https://api.datacite.org/dois"
     DJANGO_DANDI_DOI_API_USER                      = "dartlib.dandi"
-    DJANGO_DANDI_DOI_API_PREFIX                    = "10.48324"
+    DJANGO_DANDI_DOI_API_PREFIX                    = "10.${var.dandi_instance_datacite_id}"
     DJANGO_DANDI_DOI_PUBLISH                       = "true"
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "production"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "4"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://dandiarchive.org"
-    DJANGO_DANDI_API_URL                           = "https://api.dandiarchive.org"
-    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
+    DJANGO_DANDI_WEB_APP_URL                       = var.dandi_instance_url
+    DJANGO_DANDI_API_URL                           = "https://api.${var.dandi_instance_tld}"
+    DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.${var.dandi_instance_tld}"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
-    DJANGO_DANDI_ADMIN_EMAIL                       = "info@dandiarchive.org"
+    DJANGO_DANDI_ADMIN_EMAIL                       = "info@${var.dandi_instance_tld}"
+    DANDI_INSTANCE_NAME                            = var.dandi_instance_name 
+    DANDI_DATACITE_DOI_ID                          = var.dandi_instance_datacite_id
   }
   additional_sensitive_django_vars = {
     DJANGO_DANDI_DOI_API_PASSWORD = var.doi_api_password
