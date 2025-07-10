@@ -17,5 +17,8 @@ terraform {
     improvmx = {
       source = "issyl0/improvmx"
     }
+    netlify = {
+      source = "netlify/netlify"
+    }
   }
 }
