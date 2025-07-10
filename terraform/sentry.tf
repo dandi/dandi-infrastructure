@@ -7,12 +7,12 @@ data "sentry_team" "this" {
   slug         = "dandidevs"
 }
 
-data "sentry_project" "this" {
+data "sentry_project" "api" {
   organization = data.sentry_organization.this.id
   slug         = "dandi-api"
 }
 
-data "sentry_key" "this" {
+data "sentry_key" "api" {
   organization = data.sentry_organization.this.id
-  project      = data.sentry_project.this.id
+  project      = data.sentry_project.api.id
 }
