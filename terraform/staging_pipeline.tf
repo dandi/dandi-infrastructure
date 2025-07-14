@@ -5,10 +5,10 @@ module "api_staging" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
 
-  project_slug     = "dandi-api-staging"
+  project_slug     = "dandi-api-sandbox"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
-  subdomain_name   = "api-staging"
+  subdomain_name   = "api-sandbox"
 
   heroku_web_dyno_size    = "basic"
   heroku_worker_dyno_size = "basic"
@@ -19,9 +19,9 @@ module "api_staging" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api-staging.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://gui-staging.dandiarchive.org", "https://neurosift.app"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
+  django_default_from_email          = "admin@api-sandbox.dandiarchive.org"
+  django_cors_origin_whitelist       = ["https://sandbox.dandiarchive.org", "https://neurosift.app"]
+  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--sandbox-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
@@ -38,8 +38,8 @@ module "api_staging" {
     DJANGO_SENTRY_DSN                              = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT                      = "staging"
     DJANGO_CELERY_WORKER_CONCURRENCY               = "2"
-    DJANGO_DANDI_WEB_APP_URL                       = "https://gui-staging.dandiarchive.org"
-    DJANGO_DANDI_API_URL                           = "https://api-staging.dandiarchive.org"
+    DJANGO_DANDI_WEB_APP_URL                       = "https://sandbox.dandiarchive.org"
+    DJANGO_DANDI_API_URL                           = "https://api-sandbox.dandiarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
     DJANGO_DANDI_ADMIN_EMAIL                       = "info@dandiarchive.org"

@@ -5,7 +5,7 @@ variable "doi_api_password" {
 
 variable "test_doi_api_password" {
   type        = string
-  description = "The password for the Datacite Test API, used to mint new DOIs on staging during publish."
+  description = "The password for the Datacite Test API, used to mint new DOIs on sandbox during publish."
 }
 
 variable "dev_email" {
