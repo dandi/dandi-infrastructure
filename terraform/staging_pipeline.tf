@@ -3,7 +3,7 @@
 
 module "api_sandbox" {
   source  = "kitware-resonant/resonant/heroku"
-  version = "1.1.1"
+  version = "2.1.1"
 
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name

@@ -105,6 +105,27 @@ provider "registry.terraform.io/heroku/heroku" {
   ]
 }
 
+provider "registry.terraform.io/issyl0/improvmx" {
+  version = "0.8.0"
+  hashes = [
+    "h1:th4YB/p87RJcBosmVRyAUbOwdctwCZcNS8GneY0a5jc=",
+    "zh:1024702227f135690ec621ded80532f2e7fb8e9e07ea6df8013da11ae17583b4",
+    "zh:26bee42360617ca690f45f739213c531d7c6024672c6a71cee8f4d7149fe17c0",
+    "zh:29040ad1663f8d19b637bab26f78d458b47a20db12827a17043cef33a29d226c",
+    "zh:4905b453f6788e6bebc72fd1dd76f1e2ab78617c08eea586c778764997ff579c",
+    "zh:497347247db1c9f777f60de76168c613d9022edeb0723cccd4e155d95ceb17e4",
+    "zh:54ab2aa447742b503d8fb0a2d956802781c8c136debd359b4ea3aa9618213216",
+    "zh:78cd3ff5b76306958c5d6bc5ec240e7ca424cff3ede35e88763059157da9806b",
+    "zh:7fcb7c2caefd2cecd39d10b7e4ee4b7be873c22c00f38aafc60e332b4793063f",
+    "zh:93821d42884570f2c38ba49d8fce712987897ba23a6c9acec3251db2d8f25899",
+    "zh:9b65219c71d4deac88feb329d6368335d37bae16b45997582eeea2541105e7f6",
+    "zh:adf479a9c5845ba3ea75d36a04b523b2fb6a8d7dc4bfd83e1c63230d5adf4028",
+    "zh:bed7fc6e4b4982bf4abfc1c53eb2815e8e7c09aa2d4654ae9232740f2cc23583",
+    "zh:c9fe9655dc7c3abc83fa7b2226374aaed9f894784bfb982ff99e8a5f53935399",
+    "zh:fc099cbba06b42f6f3aca04e9ad9c0e4274b34a7d3c7f637025005a78eb9d8fb",
+  ]
+}
+
 provider "registry.terraform.io/jianyuan/sentry" {
   version = "0.12.2"
   hashes = [
