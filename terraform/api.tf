@@ -15,7 +15,7 @@ module "api" {
   heroku_worker_dyno_size = "standard-2x"
   heroku_postgresql_plan  = "standard-0"
   heroku_cloudamqp_plan   = "squirrel-1"
-  heroku_papertrail_plan  = "liatorp"
+  heroku_papertrail_plan  = "fredrik"
 
   heroku_web_dyno_quantity    = 3
   heroku_worker_dyno_quantity = 1
