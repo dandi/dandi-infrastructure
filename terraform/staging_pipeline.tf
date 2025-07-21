@@ -8,7 +8,7 @@ module "api_staging" {
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
-  subdomain_name   = "api-staging"
+  subdomain_name   = "api.sandbox"
 
   heroku_web_dyno_size    = "basic"
   heroku_worker_dyno_size = "basic"
@@ -19,7 +19,7 @@ module "api_staging" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api-staging.dandiarchive.org"
+  django_default_from_email          = "admin@api.sandbox.dandiarchive.org"
   django_cors_origin_whitelist       = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
 
@@ -43,6 +43,12 @@ module "api_staging" {
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
     DJANGO_DANDI_ADMIN_EMAIL                       = "info@dandiarchive.org"
+
+    # TODO: this variable is normally defined internally by the `kitware-resonant/resonant/heroku`
+    # module, but we need to temporarily override it here to allow both the staging and sandbox
+    # URLs to be used concurrently. Once we're ready to make the full switchover to sandbox,
+    # this can be removed.
+    DJANGO_ALLOWED_HOSTS = "api-staging.dandiarchive.org,api.sandbox.dandiarchive.org"
   }
   additional_sensitive_django_vars = {
     DJANGO_DANDI_DOI_API_PASSWORD = var.test_doi_api_password
