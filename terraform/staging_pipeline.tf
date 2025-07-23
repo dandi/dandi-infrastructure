@@ -1,14 +1,14 @@
 # See api.tf for the definition of the production app
 
 
-module "api_staging" {
+module "api_sandbox" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
 
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
   route53_zone_id  = aws_route53_zone.dandi.zone_id
-  subdomain_name   = "api-staging"
+  subdomain_name   = "api.sandbox"
 
   heroku_web_dyno_size    = "basic"
   heroku_worker_dyno_size = "basic"
@@ -19,7 +19,7 @@ module "api_staging" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
-  django_default_from_email          = "admin@api-staging.dandiarchive.org"
+  django_default_from_email          = "admin@api.sandbox.dandiarchive.org"
   django_cors_origin_whitelist       = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
 
@@ -43,6 +43,12 @@ module "api_staging" {
     DJANGO_DANDI_JUPYTERHUB_URL                    = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DEV_EMAIL                         = var.dev_email
     DJANGO_DANDI_ADMIN_EMAIL                       = "info@dandiarchive.org"
+
+    # TODO: this variable is normally defined internally by the `kitware-resonant/resonant/heroku`
+    # module, but we need to temporarily override it here to allow both the staging and sandbox
+    # URLs to be used concurrently. Once we're ready to make the full switchover to sandbox,
+    # this can be removed.
+    DJANGO_ALLOWED_HOSTS = "api-staging.dandiarchive.org,api.sandbox.dandiarchive.org"
   }
   additional_sensitive_django_vars = {
     DJANGO_DANDI_DOI_API_PASSWORD = var.test_doi_api_password
@@ -50,14 +56,14 @@ module "api_staging" {
 }
 
 resource "heroku_formation" "api_staging_checksum_worker" {
-  app_id   = module.api_staging.heroku_app_id
+  app_id   = module.api_sandbox.heroku_app_id
   type     = "checksum-worker"
   size     = "basic"
   quantity = 1
 }
 
 data "aws_iam_user" "api_staging" {
-  user_name = module.api_staging.heroku_iam_user_id
+  user_name = module.api_sandbox.heroku_iam_user_id
 }
 
 resource "heroku_pipeline" "dandi_pipeline" {
@@ -70,7 +76,7 @@ resource "heroku_pipeline" "dandi_pipeline" {
 }
 
 resource "heroku_pipeline_coupling" "staging" {
-  app_id   = module.api_staging.heroku_app_id
+  app_id   = module.api_sandbox.heroku_app_id
   pipeline = heroku_pipeline.dandi_pipeline.id
   stage    = "staging"
 }
@@ -79,4 +85,27 @@ resource "heroku_pipeline_coupling" "production" {
   app_id   = module.api.heroku_app_id
   pipeline = heroku_pipeline.dandi_pipeline.id
   stage    = "production"
+}
+
+# TODO: these are the old staging resources that we are moving to sandbox.
+# They will be removed once the sandbox is fully operational and the staging
+# resources are no longer needed.
+resource "heroku_domain" "staging_old" {
+  app_id   = module.api_sandbox.heroku_app_id
+  hostname = "api-staging.dandiarchive.org"
+}
+moved {
+  from = module.api_staging.module.heroku.heroku_domain.heroku
+  to   = heroku_domain.staging_old
+}
+resource "aws_route53_record" "staging_old" {
+  zone_id = "Z02063701JNV8GCOUJIZZ"
+  name    = "api-staging"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["tropical-jaguar-onayajsev8r1nuze664ms6jb.herokudns.com"]
+}
+moved {
+  from = module.api_staging.aws_route53_record.heroku
+  to   = aws_route53_record.staging_old
 }
