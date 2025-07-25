@@ -53,7 +53,6 @@ module "api_staging" {
     DJANGO_DANDI_ADMIN_EMAIL                       = "info@emberarchive.org"
 
     DJANGO_ALLOW_PRIVATE                           = true
-    DJANGO_USE_PRIVATE_BUCKET_FOR_EMBARGOED        = true
   }
   additional_sensitive_django_vars = {
     DJANGO_DANDI_DOI_API_PASSWORD = var.test_doi_api_password
