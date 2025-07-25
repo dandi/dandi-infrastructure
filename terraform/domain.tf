@@ -18,12 +18,20 @@ resource "aws_route53_record" "gui" {
   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
 }
 
+# TODO: remove these once we don't need the redirects anymore.
 resource "aws_route53_record" "gui-staging" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "gui-staging"
   type    = "CNAME"
   ttl     = "300"
   records = ["gui-staging-dandiarchive-org.netlify.com"]
+}
+resource "aws_route53_record" "api-staging" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "api-staging"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["api-staging-dandiarchive-org.netlify.com"]
 }
 
 resource "aws_route53_record" "gui-sandbox" {
