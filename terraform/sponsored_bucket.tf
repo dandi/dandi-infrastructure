@@ -5,6 +5,7 @@ module "sponsored_dandiset_bucket" {
   versioning                            = true
   allow_cross_account_heroku_put_object = true
   heroku_user                           = data.aws_iam_user.api
+  embargo_readers                       = [aws_iam_user.backup]
   log_bucket_name                       = "dandiarchive-logs"
   providers = {
     aws         = aws.sponsored
