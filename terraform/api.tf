@@ -61,6 +61,7 @@ data "aws_iam_user" "api" {
   user_name = module.api.heroku_iam_user_id
 }
 
+# A user that can assist with programmatic backup from the bucket.
 resource "aws_iam_user" "backup" {
   name = "backup"
 }
