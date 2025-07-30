@@ -21,8 +21,8 @@ module "api_sandbox" {
 
   django_settings_module             = "dandiapi.settings"
   django_default_from_email          = "admin@api.sandbox.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
+  django_cors_allowed_origins        = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
+  django_cors_allowed_origin_regexes = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
