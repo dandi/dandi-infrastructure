@@ -1,7 +1,3 @@
-data "heroku_team" "dandi" {
-  name = "dandi"
-}
-
 module "api" {
   source  = "kitware-resonant/resonant/heroku"
   version = "1.1.1"
