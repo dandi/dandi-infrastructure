@@ -1,9 +1,14 @@
 import {
-  to = module.api_sandbox.aws_route53_record.heroku
-  id = "Z02063701JNV8GCOUJIZZ_api.sandbox_CNAME"
+  to = module.api_sandbox.module.heroku.heroku_formation.heroku_web
+  id = "dandi-api-staging:web"
 }
 
 import {
-  to = module.api_sandbox.module.heroku.heroku_domain.heroku
-  id = "dandi-api-staging:api.sandbox.dandiarchive.org"
+  to = module.api_sandbox.module.heroku.heroku_formation.heroku_worker
+  id = "dandi-api-staging:worker"
+}
+
+import {
+  to = heroku_formation.api_staging_checksum_worker
+  id = "dandi-api-staging:checksum-worker"
 }
