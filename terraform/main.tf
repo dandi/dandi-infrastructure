@@ -53,3 +53,9 @@ data "aws_canonical_user_id" "sponsored_account" {
 data "aws_caller_identity" "sponsored_account" {
   provider = aws.sponsored
 }
+
+data "aws_region" "current" {}
+
+data "heroku_team" "dandi" {
+  name = "dandi"
+}
