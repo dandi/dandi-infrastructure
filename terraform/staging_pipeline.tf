@@ -83,11 +83,6 @@ resource "aws_iam_user" "api_sandbox_heroku_user" {
   name = "dandi-api-sandbox-heroku"
 }
 
-# TODO: remove duplicate data resource
-data "aws_iam_user" "api_staging" {
-  user_name = aws_iam_user.api_sandbox_heroku_user.name
-}
-
 resource "aws_iam_access_key" "api_sandbox_heroku_user" {
   user = aws_iam_user.api_sandbox_heroku_user.name
 }
@@ -108,7 +103,7 @@ resource "heroku_pipeline_coupling" "staging" {
 }
 
 resource "heroku_pipeline_coupling" "production" {
-  app_id   = module.api.heroku_app_id
+  app_id   = module.api_heroku.app_id
   pipeline = heroku_pipeline.dandi_pipeline.id
   stage    = "production"
 }
