@@ -25,6 +25,8 @@ module "api" {
   django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
+    DANDI_INSTANCE_NAME                            = "DANDI"
+    DANDI_DOI_PREFIX                               = "10.48324"
     DJANGO_CONFIGURATION                           = "HerokuProductionConfiguration"
     DJANGO_DANDI_DANDISETS_BUCKET_NAME             = module.sponsored_dandiset_bucket.bucket_name
     DJANGO_DANDI_DANDISETS_BUCKET_PREFIX           = ""
