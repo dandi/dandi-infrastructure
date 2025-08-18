@@ -17,23 +17,6 @@ resource "aws_route53_record" "gui" {
   ttl     = "300"
   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
 }
-
-resource "aws_route53_record" "gui-staging" {
-  zone_id = aws_route53_zone.dandi.zone_id
-  name    = "gui-staging"
-  type    = "CNAME"
-  ttl     = "300"
-  records = ["gui-staging-dandiarchive-org.netlify.com"]
-}
-
-resource "aws_route53_record" "gui-sandbox" {
-  zone_id = aws_route53_zone.dandi.zone_id
-  name    = "sandbox"
-  type    = "CNAME"
-  ttl     = "300"
-  records = ["sandbox-dandiarchive-org.netlify.com"]
-}
-
 resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "www"
