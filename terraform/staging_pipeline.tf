@@ -3,7 +3,7 @@
 
 module "api_sandbox" {
   source  = "kitware-resonant/resonant/heroku"
-  version = "1.1.1"
+  version = "2.1.1"
 
   project_slug     = "dandi-api-staging"
   heroku_team_name = data.heroku_team.dandi.name
@@ -19,9 +19,10 @@ module "api_sandbox" {
   heroku_web_dyno_quantity    = 1
   heroku_worker_dyno_quantity = 1
 
+  django_settings_module             = "dandiapi.settings"
   django_default_from_email          = "admin@api.sandbox.dandiarchive.org"
-  django_cors_origin_whitelist       = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
-  django_cors_origin_regex_whitelist = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
+  django_cors_allowed_origins        = ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"]
+  django_cors_allowed_origin_regexes = ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"]
 
   additional_django_vars = {
     DJANGO_CONFIGURATION                           = "HerokuStagingConfiguration"
