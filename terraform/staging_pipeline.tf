@@ -34,8 +34,8 @@ module "api_sandbox_heroku" {
     DJANGO_CELERY_WORKER_CONCURRENCY = "2"
     DJANGO_SENTRY_DSN                = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT        = "staging"
-    DJANGO_DANDI_WEB_APP_URL         = "https://gui-staging.dandiarchive.org"
-    DJANGO_DANDI_API_URL             = "https://api-staging.dandiarchive.org"
+    DJANGO_DANDI_WEB_APP_URL         = "https://sandbox.dandiarchive.org"
+    DJANGO_DANDI_API_URL             = "https://api.sandbox.dandiarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL      = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DOI_API_URL         = "https://api.test.datacite.org/dois"
     DJANGO_DANDI_DOI_API_USER        = "dartlib.dandi"
