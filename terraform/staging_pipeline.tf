@@ -25,7 +25,7 @@ module "api_sandbox_heroku" {
     AWS_DEFAULT_REGION                 = data.aws_region.current.name
     DJANGO_ALLOWED_HOSTS               = join(",", ["api-staging.dandiarchive.org", "api.sandbox.dandiarchive.org"])
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"])
-    DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--gui-staging-dandiarchive-org\\.netlify\\.app$"])
+    DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--sandbox-dandiarchive-org\\.netlify\\.app$"])
     DJANGO_DEFAULT_FROM_EMAIL          = "admin@api.sandbox.dandiarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"
     DJANGO_STORAGE_BUCKET_NAME         = module.staging_dandiset_bucket.bucket_name
@@ -34,8 +34,8 @@ module "api_sandbox_heroku" {
     DJANGO_CELERY_WORKER_CONCURRENCY = "2"
     DJANGO_SENTRY_DSN                = data.sentry_key.this.dsn_public
     DJANGO_SENTRY_ENVIRONMENT        = "staging"
-    DJANGO_DANDI_WEB_APP_URL         = "https://gui-staging.dandiarchive.org"
-    DJANGO_DANDI_API_URL             = "https://api-staging.dandiarchive.org"
+    DJANGO_DANDI_WEB_APP_URL         = "https://sandbox.dandiarchive.org"
+    DJANGO_DANDI_API_URL             = "https://api.sandbox.dandiarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL      = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DOI_API_URL         = "https://api.test.datacite.org/dois"
     DJANGO_DANDI_DOI_API_USER        = "dartlib.dandi"
