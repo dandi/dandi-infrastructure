@@ -23,7 +23,7 @@ module "api_sandbox_heroku" {
   config_vars = {
     AWS_ACCESS_KEY_ID                  = aws_iam_access_key.api_sandbox_heroku_user.id
     AWS_DEFAULT_REGION                 = data.aws_region.current.name
-    DJANGO_ALLOWED_HOSTS               = join(",", ["api-staging.dandiarchive.org", "api.sandbox.dandiarchive.org"])
+    DJANGO_ALLOWED_HOSTS               = join(",", ["api.sandbox.dandiarchive.org"])
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://sandbox.dandiarchive.org", "https://gui-staging.dandiarchive.org", "https://neurosift.app"])
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--sandbox-dandiarchive-org\\.netlify\\.app$"])
     DJANGO_DEFAULT_FROM_EMAIL          = "admin@api.sandbox.dandiarchive.org"
