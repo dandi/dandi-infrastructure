@@ -127,12 +127,6 @@ data "aws_iam_policy_document" "dandiset_bucket_owner" {
     ]
 
     actions = ["s3:*"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
-    }
   }
 }
 
@@ -219,11 +213,6 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
         values   = [data.aws_caller_identity.sponsored_account.account_id]
       }
       condition {
-        test     = "StringEquals"
-        variable = "s3:x-amz-acl"
-        values   = ["bucket-owner-full-control"]
-      }
-      condition {
         test     = "ArnLike"
         variable = "aws:SourceArn"
         values   = [aws_s3_bucket.dandiset_bucket.arn]
@@ -256,12 +245,6 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     ]
 
     actions = ["s3:*"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
-    }
 
     principals {
       type        = "AWS"
