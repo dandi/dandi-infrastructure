@@ -68,17 +68,8 @@ resource "aws_s3_bucket_ownership_controls" "dandiset_bucket" {
   bucket = aws_s3_bucket.dandiset_bucket.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced"
   }
-}
-
-resource "aws_s3_bucket_acl" "dandiset_bucket" {
-  depends_on = [aws_s3_bucket_ownership_controls.dandiset_bucket]
-
-  bucket = aws_s3_bucket.dandiset_bucket.id
-
-  // Public access is granted via a bucket policy, not a canned ACL
-  acl = "private"
 }
 
 resource "aws_iam_user_policy" "dandiset_bucket_owner" {
