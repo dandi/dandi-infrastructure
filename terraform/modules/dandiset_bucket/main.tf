@@ -26,12 +26,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "dandiset_bucket" 
 resource "aws_s3_bucket_public_access_block" "dandiset_bucket" {
   bucket = aws_s3_bucket.dandiset_bucket.id
 
-  # Allows public access to the bucket (if applicable)
-  # S3's default is to block all public access
-  block_public_policy     = !var.public
-  restrict_public_buckets = !var.public
-  block_public_acls       = !var.public
-  ignore_public_acls      = !var.public
+  # Allows public access to the bucket. S3's default is to block all public access
+  block_public_policy     = false
+  restrict_public_buckets = false
+  block_public_acls       = false
+  ignore_public_acls      = false
 }
 
 resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
@@ -148,55 +147,47 @@ resource "aws_s3_bucket_policy" "dandiset_bucket_policy" {
 data "aws_iam_policy_document" "dandiset_bucket_policy" {
   version = "2008-10-17"
 
-  dynamic "statement" {
-    for_each = var.public ? [1] : []
+  statement {
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}",
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
 
-    content {
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}",
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
 
-      actions = [
-        "s3:Get*",
-        "s3:List*",
-      ]
-
-      principals {
-        identifiers = ["*"]
-        type        = "*"
-      }
+    principals {
+      identifiers = ["*"]
+      type        = "*"
     }
   }
 
   # Disallow access to embargoed objects, unless using the heroku user arn, or
   # an extra, authorized embargo reader account.
-  dynamic "statement" {
-    for_each = var.public ? [1] : []
-
-    content {
-      effect = "Deny"
-      principals {
-        identifiers = ["*"]
-        type        = "*"
-      }
-      actions = ["s3:*"]
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
-      condition {
-        test     = "StringEquals"
-        variable = "s3:ExistingObjectTag/embargoed"
-        values   = ["true"]
-      }
-      condition {
-        test     = "ArnNotEquals"
-        variable = "aws:PrincipalArn"
-        values = flatten([
-          var.heroku_user.arn,
-          [for user in var.embargo_readers : user.arn],
-        ])
-      }
+  statement {
+    effect = "Deny"
+    principals {
+      identifiers = ["*"]
+      type        = "*"
+    }
+    actions = ["s3:*"]
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "s3:ExistingObjectTag/embargoed"
+      values   = ["true"]
+    }
+    condition {
+      test     = "ArnNotEquals"
+      variable = "aws:PrincipalArn"
+      values = flatten([
+        var.heroku_user.arn,
+        [for user in var.embargo_readers : user.arn],
+      ])
     }
   }
 
