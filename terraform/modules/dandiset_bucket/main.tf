@@ -2,7 +2,9 @@ data "aws_caller_identity" "sponsored_account" {
   provider = aws
 }
 
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+  provider = aws.project
+}
 
 resource "aws_s3_bucket" "dandiset_bucket" {
 
