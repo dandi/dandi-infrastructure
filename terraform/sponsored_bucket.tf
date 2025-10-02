@@ -1,7 +1,6 @@
 module "sponsored_dandiset_bucket" {
   source                                = "./modules/dandiset_bucket"
   bucket_name                           = "dandiarchive"
-  public                                = true
   versioning                            = true
   allow_cross_account_heroku_put_object = true
   heroku_user                           = aws_iam_user.api_heroku_user
