@@ -112,17 +112,13 @@ data "aws_iam_policy_document" "dandiset_bucket_owner" {
     ]
   }
 
-  dynamic "statement" {
-    for_each = (var.allow_cross_account_heroku_put_object || var.allow_heroku_put_object) ? [1] : []
-    content {
+  statement {
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}",
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
 
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}",
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
-
-      actions = ["s3:PutObject", "s3:PutObjectTagging"]
-    }
+    actions = ["s3:PutObject", "s3:PutObjectTagging"]
   }
 
   statement {

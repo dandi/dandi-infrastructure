@@ -3,12 +3,6 @@ variable "bucket_name" {
   description = "The name of the bucket."
 }
 
-# TODO: remove after migration
-variable "allow_heroku_put_object" {
-  type    = bool
-  default = false
-}
-
 # TODO: refactor after migration
 variable "allow_cross_account_heroku_put_object" {
   type    = bool
