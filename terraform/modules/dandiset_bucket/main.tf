@@ -180,7 +180,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
   }
 
   dynamic "statement" {
-    for_each = var.allow_cross_account_heroku_put_object ? [1] : []
+    for_each = data.aws_caller_identity.sponsored_account.account_id != data.aws_caller_identity.current.account_id ? [1] : []
 
     content {
       sid = "S3PolicyStmt-DO-NOT-MODIFY-1569973164923"
@@ -240,7 +240,7 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
   }
 
   dynamic "statement" {
-    for_each = var.allow_cross_account_heroku_put_object ? [1] : []
+    for_each = data.aws_caller_identity.sponsored_account.account_id != data.aws_caller_identity.current.account_id ? [1] : []
     content {
       resources = [
         "${aws_s3_bucket.dandiset_bucket.arn}",
