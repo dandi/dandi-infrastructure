@@ -185,31 +185,27 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     }
   }
 
-  dynamic "statement" {
-    for_each = var.allow_cross_account_heroku_put_object ? [1] : []
-
-    content {
-      sid = "S3PolicyStmt-DO-NOT-MODIFY-1569973164923"
-      principals {
-        identifiers = ["s3.amazonaws.com"]
-        type        = "Service"
-      }
-      actions = [
-        "s3:PutObject",
-      ]
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
-      condition {
-        test     = "StringEquals"
-        variable = "aws:SourceAccount"
-        values   = [data.aws_caller_identity.sponsored_account.account_id]
-      }
-      condition {
-        test     = "ArnLike"
-        variable = "aws:SourceArn"
-        values   = [aws_s3_bucket.dandiset_bucket.arn]
-      }
+  statement {
+    sid = "S3PolicyStmt-DO-NOT-MODIFY-1569973164923"
+    principals {
+      identifiers = ["s3.amazonaws.com"]
+      type        = "Service"
+    }
+    actions = [
+      "s3:PutObject",
+    ]
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.sponsored_account.account_id]
+    }
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values   = [aws_s3_bucket.dandiset_bucket.arn]
     }
   }
 
@@ -245,20 +241,17 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     }
   }
 
-  dynamic "statement" {
-    for_each = var.allow_cross_account_heroku_put_object ? [1] : []
-    content {
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}",
-        "${aws_s3_bucket.dandiset_bucket.arn}/*",
-      ]
+  statement {
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}",
+      "${aws_s3_bucket.dandiset_bucket.arn}/*",
+    ]
 
-      actions = ["s3:PutObjectTagging"]
+    actions = ["s3:PutObjectTagging"]
 
-      principals {
-        type        = "AWS"
-        identifiers = [var.heroku_user.arn]
-      }
+    principals {
+      type        = "AWS"
+      identifiers = [var.heroku_user.arn]
     }
   }
 
