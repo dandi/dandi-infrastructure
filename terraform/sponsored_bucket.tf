@@ -12,15 +12,3 @@ module "sponsored_dandiset_bucket" {
     aws.project = aws
   }
 }
-
-module "sponsored_embargo_bucket" {
-  source          = "./modules/dandiset_bucket"
-  bucket_name     = "dandiarchive-embargo"
-  versioning      = false
-  heroku_user     = aws_iam_user.api_heroku_user
-  log_bucket_name = "dandiarchive-embargo-logs"
-  providers = {
-    aws         = aws.sponsored
-    aws.project = aws
-  }
-}
