@@ -71,8 +71,6 @@ resource "aws_s3_bucket_logging" "dandiset_bucket" {
 }
 
 resource "aws_s3_bucket_versioning" "dandiset_bucket" {
-  count = var.versioning ? 1 : 0
-
   bucket = aws_s3_bucket.dandiset_bucket.id
 
   versioning_configuration {
@@ -268,26 +266,22 @@ data "aws_iam_policy_document" "dandiset_bucket_policy" {
     }
   }
 
-  dynamic "statement" {
-    for_each = var.versioning ? [1] : []
+  statement {
+    sid = "PreventDeletionOfObjectVersions"
 
-    content {
-      sid = "PreventDeletionOfObjectVersions"
+    resources = [
+      "${aws_s3_bucket.dandiset_bucket.arn}/*"
+    ]
 
-      resources = [
-        "${aws_s3_bucket.dandiset_bucket.arn}/*"
-      ]
+    actions = [
+      "s3:DeleteObjectVersion",
+    ]
 
-      actions = [
-        "s3:DeleteObjectVersion",
-      ]
+    effect = "Deny"
 
-      effect = "Deny"
-
-      principals {
-        identifiers = ["*"]
-        type        = "*"
-      }
+    principals {
+      identifiers = ["*"]
+      type        = "*"
     }
   }
 }
@@ -297,65 +291,53 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
   # Must have bucket versioning enabled first
   depends_on = [aws_s3_bucket_versioning.dandiset_bucket]
 
-  count = var.versioning ? 1 : 0
-
   bucket = aws_s3_bucket.dandiset_bucket.id
 
   # S3 lifecycle policy that permanently deletes objects with delete markers
   # after 30 days. Note, this only applies to objects with the `blobs/` prefix.
   # Based on https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html#lifecycle-config-conceptual-ex7
-  dynamic "rule" {
-    # Only create this rule if versioning is enabled on the bucket
-    for_each = var.versioning ? [1] : []
-
-    content {
-      id = "ExpireOldDeleteMarkers"
-      filter {
-        # We only want to expire objects with the `blobs/` prefix, i.e. Asset Blobs.
-        # Other objects in this bucket are not subject to this lifecycle policy.
-        prefix = "blobs/"
-      }
-
-      # Expire objects with delete markers after 30 days
-      noncurrent_version_expiration {
-        noncurrent_days = 30
-      }
-
-      # Also delete any delete markers associated with the expired object
-      expiration {
-        expired_object_delete_marker = true
-      }
-
-      status = "Enabled"
+  rule {
+    id = "ExpireOldDeleteMarkers"
+    filter {
+      # We only want to expire objects with the `blobs/` prefix, i.e. Asset Blobs.
+      # Other objects in this bucket are not subject to this lifecycle policy.
+      prefix = "blobs/"
     }
+
+    # Expire objects with delete markers after 30 days
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+
+    # Also delete any delete markers associated with the expired object
+    expiration {
+      expired_object_delete_marker = true
+    }
+
+    status = "Enabled"
   }
 
   # S3 lifecycle policy that garbage collects old manifest file versions
-  dynamic "rule" {
-    # Only create this rule if versioning is enabled and we want to expire old manifest file versions
-    for_each = var.versioning ? [1] : []
-
-    content {
-      id = "ExpireOldManifestFileVersions"
-      filter {
-        # We only want to expire objects with the `dandisets/` prefix, i.e. manifest files.
-        # Other objects in this bucket are not subject to this lifecycle policy.
-        prefix = "dandisets/"
-      }
-
-      noncurrent_version_expiration {
-        # keep most recent noncurrent version indefinitely
-        newer_noncurrent_versions = 1
-        # delete all other noncurrent versions after 1 day
-        noncurrent_days = 1
-      }
-
-      # Also delete any delete markers associated with the expired object
-      expiration {
-        expired_object_delete_marker = true
-      }
-
-      status = "Enabled"
+  rule {
+    id = "ExpireOldManifestFileVersions"
+    filter {
+      # We only want to expire objects with the `dandisets/` prefix, i.e. manifest files.
+      # Other objects in this bucket are not subject to this lifecycle policy.
+      prefix = "dandisets/"
     }
+
+    noncurrent_version_expiration {
+      # keep most recent noncurrent version indefinitely
+      newer_noncurrent_versions = 1
+      # delete all other noncurrent versions after 1 day
+      noncurrent_days = 1
+    }
+
+    # Also delete any delete markers associated with the expired object
+    expiration {
+      expired_object_delete_marker = true
+    }
+
+    status = "Enabled"
   }
 }
