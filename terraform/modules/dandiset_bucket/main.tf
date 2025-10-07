@@ -23,6 +23,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "dandiset_bucket" 
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "dandiset_bucket" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+
+  # Allows public access to the bucket (if applicable)
+  # S3's default is to block all public access
+  block_public_policy     = !var.public
+  restrict_public_buckets = !var.public
+  block_public_acls       = !var.public
+  ignore_public_acls      = !var.public
+}
+
 resource "aws_s3_bucket_cors_configuration" "dandiset_bucket" {
   bucket = aws_s3_bucket.dandiset_bucket.id
 
