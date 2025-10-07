@@ -43,10 +43,9 @@ module "api_heroku" {
     DJANGO_DANDI_DOI_PUBLISH         = "true"
 
     # These may be removed in the future
-    DJANGO_DANDI_DANDISETS_BUCKET_NAME   = module.sponsored_dandiset_bucket.bucket_name
-    DJANGO_DANDI_DANDISETS_BUCKET_PREFIX = ""
-    DJANGO_DANDI_DEV_EMAIL               = var.dev_email
-    DJANGO_DANDI_ADMIN_EMAIL             = "info@dandiarchive.org"
+    DJANGO_DANDI_DANDISETS_BUCKET_NAME = module.sponsored_dandiset_bucket.bucket_name
+    DJANGO_DANDI_DEV_EMAIL             = var.dev_email
+    DJANGO_DANDI_ADMIN_EMAIL           = "info@dandiarchive.org"
   }
   sensitive_config_vars = {
     AWS_SECRET_ACCESS_KEY         = aws_iam_access_key.api_heroku_user.secret
