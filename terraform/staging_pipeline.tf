@@ -1,6 +1,6 @@
 module "api_sandbox_smtp" {
   source  = "kitware-resonant/resonant/heroku//modules/smtp"
-  version = "2.1.1"
+  version = "3.0.0"
 
   fqdn            = "api.sandbox.dandiarchive.org"
   project_slug    = "dandi-api-staging"
@@ -14,7 +14,7 @@ resource "random_string" "api_sandbox_django_secret" {
 
 module "api_sandbox_heroku" {
   source  = "kitware-resonant/resonant/heroku//modules/heroku"
-  version = "2.1.1"
+  version = "3.0.0"
 
   team_name = data.heroku_team.dandi.name
   app_name  = "dandi-api-staging"
@@ -22,7 +22,7 @@ module "api_sandbox_heroku" {
 
   config_vars = {
     AWS_ACCESS_KEY_ID                  = aws_iam_access_key.api_sandbox_heroku_user.id
-    AWS_DEFAULT_REGION                 = data.aws_region.current.name
+    AWS_DEFAULT_REGION                 = data.aws_region.current.region
     DJANGO_ALLOWED_HOSTS               = join(",", ["api.sandbox.dandiarchive.org"])
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://sandbox.dandiarchive.org", "https://neurosift.app"])
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--sandbox-dandiarchive-org\\.netlify\\.app$"])
@@ -32,7 +32,7 @@ module "api_sandbox_heroku" {
 
     # DANDI-specific variables
     DJANGO_CELERY_WORKER_CONCURRENCY  = "2"
-    DJANGO_SENTRY_DSN                 = data.sentry_key.this.dsn_public
+    DJANGO_SENTRY_DSN                 = data.sentry_key.this.dsn.public
     DJANGO_SENTRY_ENVIRONMENT         = "staging"
     DJANGO_OAUTH2_ALLOW_URI_WILDCARDS = "true"
     DJANGO_DANDI_WEB_APP_URL          = "https://sandbox.dandiarchive.org"
