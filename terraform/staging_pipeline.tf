@@ -42,7 +42,7 @@ module "api_sandbox_heroku" {
     DJANGO_DANDI_DOI_API_USER         = "dartlib.dandi"
     DJANGO_DANDI_DOI_API_PREFIX       = "10.80507"
     DJANGO_DANDI_DOI_PUBLISH          = "false"
-    DJANGO_DANDI_INSTANCE_NAME        = "DANDI-STAGING"
+    DJANGO_DANDI_INSTANCE_NAME        = "DANDI-SANDBOX"
     DJANGO_DANDI_INSTANCE_IDENTIFIER  = "RRID:SCR_017571"
 
     # These may be removed in the future
