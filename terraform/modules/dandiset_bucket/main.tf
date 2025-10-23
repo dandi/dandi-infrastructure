@@ -63,6 +63,12 @@ resource "aws_s3_bucket_logging" "dandiset_bucket" {
 
   target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = ""
+
+  target_object_key_format {
+    partitioned_prefix {
+      partition_date_source = "EventTime"
+    }
+  }
 }
 
 resource "aws_s3_bucket_versioning" "dandiset_bucket" {
