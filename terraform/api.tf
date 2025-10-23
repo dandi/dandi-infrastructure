@@ -1,6 +1,6 @@
 module "api_smtp" {
   source  = "kitware-resonant/resonant/heroku//modules/smtp"
-  version = "2.1.1"
+  version = "3.0.0"
 
   fqdn            = "api.dandiarchive.org"
   project_slug    = "dandi-api"
@@ -14,7 +14,7 @@ resource "random_string" "api_django_secret" {
 
 module "api_heroku" {
   source  = "kitware-resonant/resonant/heroku//modules/heroku"
-  version = "2.1.1"
+  version = "3.0.0"
 
   team_name = data.heroku_team.dandi.name
   app_name  = "dandi-api"
@@ -22,7 +22,7 @@ module "api_heroku" {
 
   config_vars = {
     AWS_ACCESS_KEY_ID                  = aws_iam_access_key.api_heroku_user.id
-    AWS_DEFAULT_REGION                 = data.aws_region.current.name
+    AWS_DEFAULT_REGION                 = data.aws_region.current.region
     DJANGO_ALLOWED_HOSTS               = "api.dandiarchive.org"
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://dandiarchive.org", "https://neurosift.app"])
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"])
@@ -32,7 +32,7 @@ module "api_heroku" {
 
     # DANDI-specific variables
     DJANGO_CELERY_WORKER_CONCURRENCY = "4"
-    DJANGO_SENTRY_DSN                = data.sentry_key.this.dsn_public
+    DJANGO_SENTRY_DSN                = data.sentry_key.this.dsn.public
     DJANGO_SENTRY_ENVIRONMENT        = "production"
     DJANGO_DANDI_WEB_APP_URL         = "https://dandiarchive.org"
     DJANGO_DANDI_API_URL             = "https://api.dandiarchive.org"
