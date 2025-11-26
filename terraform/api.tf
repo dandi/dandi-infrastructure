@@ -92,3 +92,8 @@ resource "aws_iam_access_key" "api_heroku_user" {
 resource "aws_iam_user" "backup" {
   name = "backup"
 }
+
+# A user for performing programmatic backups to datalad
+resource "aws_iam_user" "backups2datalad" {
+  name = "backups2datalad"
+}
