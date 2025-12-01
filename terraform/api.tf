@@ -97,3 +97,23 @@ resource "aws_iam_user" "backup" {
 resource "aws_iam_user" "backups2datalad" {
   name = "backups2datalad"
 }
+
+resource "aws_iam_user_policy" "sponsored_bucket_read_only" {
+  name   = "SponsoredBucketReadOnlyAccess"
+  policy = data.aws_iam_policy_document.sponsored_bucket_read_only.json
+  user   = aws_iam_user.backups2datalad.name
+}
+
+data "aws_iam_policy_document" "sponsored_bucket_read_only" {
+  statement {
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+    resources = [
+      module.sponsored_dandiset_bucket.bucket_arn,
+      "${module.sponsored_dandiset_bucket.bucket_arn}/*",
+    ]
+    effect = "Allow"
+  }
+}
