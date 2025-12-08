@@ -51,6 +51,14 @@ resource "aws_route53_record" "status" {
   records = ["dandi.github.io."]
 }
 
+resource "aws_route53_record" "usage" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "usage"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dandi.github.io."]
+}
+
 resource "aws_route53_record" "email" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "" # apex
