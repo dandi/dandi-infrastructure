@@ -57,7 +57,7 @@ module "api_heroku" {
   }
 
   web_dyno_size        = "standard-2x"
-  web_dyno_quantity    = 3
+  web_dyno_quantity    = 6
   worker_dyno_size     = "standard-2x"
   worker_dyno_quantity = 1
   postgresql_plan      = "standard-0"
