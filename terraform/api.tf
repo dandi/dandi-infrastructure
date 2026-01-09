@@ -57,12 +57,12 @@ module "api_heroku" {
   }
 
   web_dyno_size        = "standard-2x"
-  web_dyno_quantity    = 3
+  web_dyno_quantity    = 6
   worker_dyno_size     = "standard-2x"
   worker_dyno_quantity = 1
   postgresql_plan      = "standard-0"
   cloudamqp_plan       = "squirrel-1"
-  papertrail_plan      = "liatorp"
+  papertrail_plan      = "fredrik"
 }
 
 resource "heroku_formation" "api_checksum_worker" {
