@@ -26,7 +26,7 @@ module "api_heroku" {
     DJANGO_ALLOWED_HOSTS               = "api.dandiarchive.org"
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://dandiarchive.org", "https://neurosift.app"])
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"])
-    DJANGO_DEFAULT_FROM_EMAIL          = "admin@api.dandiarchive.org"
+    DJANGO_DEFAULT_FROM_EMAIL          = "info@dandiarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"
     DJANGO_STORAGE_BUCKET_NAME         = module.sponsored_dandiset_bucket.bucket_name
 
