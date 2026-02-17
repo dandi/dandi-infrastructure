@@ -11,14 +11,6 @@ resource "aws_route53_record" "ns_zarr_demo" {
   records = aws_route53_zone.zarr_demo.name_servers
 }
 
-# resource "aws_route53_record" "gui_zarr_demo" {
-#   zone_id = aws_route53_zone.zarr_demo.zone_id
-#   name    = "" # apex
-#   type    = "A"
-#   ttl     = "300"
-#   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
-# }
-
 resource "aws_route53_record" "api_zarr_demo_heroku" {
   zone_id = aws_route53_zone.zarr_demo.zone_id
   name    = "api"
