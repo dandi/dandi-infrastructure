@@ -88,24 +88,3 @@ resource "aws_iam_user" "api_sandbox_heroku_user" {
 resource "aws_iam_access_key" "api_sandbox_heroku_user" {
   user = aws_iam_user.api_sandbox_heroku_user.name
 }
-
-resource "heroku_pipeline" "dandi_pipeline" {
-  name = "dandi-pipeline"
-
-  owner {
-    id   = data.heroku_team.dandi.id
-    type = "team"
-  }
-}
-
-resource "heroku_pipeline_coupling" "staging" {
-  app_id   = module.api_sandbox_heroku.app_id
-  pipeline = heroku_pipeline.dandi_pipeline.id
-  stage    = "staging"
-}
-
-resource "heroku_pipeline_coupling" "production" {
-  app_id   = module.api_heroku.app_id
-  pipeline = heroku_pipeline.dandi_pipeline.id
-  stage    = "production"
-}
