@@ -35,6 +35,14 @@ resource "aws_route53_record" "about" {
   records = ["dandi.github.io."]
 }
 
+resource "aws_route53_record" "atlas" {
+  zone_id = aws_route53_zone.dandi.zone_id
+  name    = "atlas"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["dandi.github.io."]
+}
+
 resource "aws_route53_record" "docs" {
   zone_id = aws_route53_zone.dandi.zone_id
   name    = "docs"
