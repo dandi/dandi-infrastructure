@@ -48,7 +48,7 @@ resource "aws_route53_record" "medit" {
   name    = "medit"
   type    = "CNAME"
   ttl     = "300"
-  records = ["magland.github.io."]
+  records = ["dandi.github.io."]
 }
 
 resource "aws_route53_record" "status" {
