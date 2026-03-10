@@ -330,3 +330,47 @@ resource "aws_s3_bucket_lifecycle_configuration" "dandiset_bucket" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_inventory" "blob_inventory" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+  name   = "BlobDailyInventory"
+
+  included_object_versions = "All"
+
+  filter {
+    prefix = "blobs/"
+  }
+
+  schedule {
+    frequency = "Daily"
+  }
+
+  destination {
+    bucket {
+      format     = "CSV"
+      bucket_arn = aws_s3_bucket.inventory_bucket.arn
+    }
+  }
+}
+
+resource "aws_s3_bucket_inventory" "zarr_inventory" {
+  bucket = aws_s3_bucket.dandiset_bucket.id
+  name   = "ZarrDailyInventory"
+
+  included_object_versions = "All"
+
+  filter {
+    prefix = "zarr/"
+  }
+
+  schedule {
+    frequency = "Daily"
+  }
+
+  destination {
+    bucket {
+      format     = "CSV"
+      bucket_arn = aws_s3_bucket.inventory_bucket.arn
+    }
+  }
+}
