@@ -8,19 +8,10 @@ resource "aws_s3_bucket" "log_bucket" {
   }
 }
 
-# Must use a separate bucket for the inventory files, to prevent "recursion"
-resource "aws_s3_bucket" "log_inventory_bucket" {
-  bucket = "${var.log_bucket_name}-inventory"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 # The inventory configuration itself
 resource "aws_s3_bucket_inventory" "log_bucket_inventory" {
   bucket = aws_s3_bucket.log_bucket.id
-  name   = "LogsWeekly"
+  name   = "LogsWeeklyInventory"
 
   included_object_versions = "All"
 
@@ -31,7 +22,7 @@ resource "aws_s3_bucket_inventory" "log_bucket_inventory" {
   destination {
     bucket {
       format     = "CSV"
-      bucket_arn = aws_s3_bucket.log_inventory_bucket.arn
+      bucket_arn = aws_s3_bucket.inventory_bucket.arn
     }
   }
 }

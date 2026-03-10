@@ -30,10 +30,11 @@ module "api_zarr_demo_smtp" {
 
 
 module "zarr_demo_dandiset_bucket" {
-  source          = "./modules/dandiset_bucket"
-  bucket_name     = "dandi-api-zarr-demo-dandisets"
-  heroku_user     = aws_iam_user.api_zarr_demo_heroku_user
-  log_bucket_name = "dandi-api-zarr-demo-dandiset-logs"
+  source                = "./modules/dandiset_bucket"
+  bucket_name           = "dandi-api-zarr-demo-dandisets"
+  heroku_user           = aws_iam_user.api_zarr_demo_heroku_user
+  log_bucket_name       = "dandi-api-zarr-demo-dandiset-logs"
+  inventory_bucket_name = "dandi-api-zarr-demo-inventory"
   providers = {
     aws         = aws
     aws.project = aws

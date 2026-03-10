@@ -16,3 +16,8 @@ variable "log_bucket_name" {
   type        = string
   description = "The name of the log bucket."
 }
+
+variable "inventory_bucket_name" {
+  type        = string
+  description = "Name of the shared S3 bucket where inventory reports are delivered (e.g. dandiarchive-inventory)."
+}
