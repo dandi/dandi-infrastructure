@@ -10,10 +10,3 @@ module "sponsored_dandiset_bucket" {
     aws.project = aws
   }
 }
-
-
-# TODO: Remove once apply is run
-import {
-  to = module.sponsored_dandiset_bucket.aws_s3_bucket.inventory_bucket
-  id = "dandiarchive-inventory"
-}
