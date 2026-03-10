@@ -1,11 +1,19 @@
 module "sponsored_dandiset_bucket" {
-  source          = "./modules/dandiset_bucket"
-  bucket_name     = "dandiarchive"
-  heroku_user     = aws_iam_user.api_heroku_user
-  embargo_readers = [aws_iam_user.backup, aws_iam_user.backups2datalad]
-  log_bucket_name = "dandiarchive-logs"
+  source                = "./modules/dandiset_bucket"
+  bucket_name           = "dandiarchive"
+  heroku_user           = aws_iam_user.api_heroku_user
+  embargo_readers       = [aws_iam_user.backup, aws_iam_user.backups2datalad]
+  log_bucket_name       = "dandiarchive-logs"
+  inventory_bucket_name = "dandiarchive-inventory"
   providers = {
     aws         = aws.sponsored
     aws.project = aws
   }
+}
+
+
+# TODO: Remove once apply is run
+import {
+  to = module.sponsored_dandiset_bucket.aws_s3_bucket.inventory_bucket
+  id = "dandiarchive-inventory"
 }

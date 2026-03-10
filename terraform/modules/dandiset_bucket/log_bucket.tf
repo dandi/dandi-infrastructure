@@ -8,6 +8,25 @@ resource "aws_s3_bucket" "log_bucket" {
   }
 }
 
+# The inventory configuration itself
+resource "aws_s3_bucket_inventory" "log_bucket_inventory" {
+  bucket = aws_s3_bucket.log_bucket.id
+  name   = "LogsWeeklyInventory"
+
+  included_object_versions = "All"
+
+  schedule {
+    frequency = "Weekly"
+  }
+
+  destination {
+    bucket {
+      format     = "CSV"
+      bucket_arn = aws_s3_bucket.inventory_bucket.arn
+    }
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket" {
   bucket = aws_s3_bucket.log_bucket.id
 
