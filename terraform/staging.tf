@@ -2,7 +2,7 @@ module "api_sandbox_smtp" {
   source  = "kitware-resonant/resonant/heroku//modules/smtp"
   version = "3.0.0"
 
-  fqdn            = "api.sandbox.dandiarchive.org"
+  fqdn            = "sandbox.dandiarchive.org"
   project_slug    = "dandi-api-staging"
   route53_zone_id = aws_route53_zone.dandi_sandbox.zone_id
 }
@@ -26,7 +26,7 @@ module "api_sandbox_heroku" {
     DJANGO_ALLOWED_HOSTS               = join(",", ["api.sandbox.dandiarchive.org"])
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://sandbox.dandiarchive.org", "https://neurosift.app"])
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--sandbox-dandiarchive-org\\.netlify\\.app$"])
-    DJANGO_DEFAULT_FROM_EMAIL          = "info@dandiarchive.org"
+    DJANGO_DEFAULT_FROM_EMAIL          = "info@sandbox.dandiarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"
     DJANGO_STORAGE_BUCKET_NAME         = module.staging_dandiset_bucket.bucket_name
 
