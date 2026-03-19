@@ -24,7 +24,7 @@ module "api_heroku" {
     AWS_ACCESS_KEY_ID                  = aws_iam_access_key.api_heroku_user.id
     AWS_DEFAULT_REGION                 = data.aws_region.current.region
     DJANGO_ALLOWED_HOSTS               = "api.dandiarchive.org"
-    DJANGO_CORS_ALLOWED_ORIGINS        = join(",", ["https://dandiarchive.org", "https://neurosift.app"])
+    DJANGO_CORS_ALLOWED_ORIGINS        = join(",", concat(["https://dandiarchive.org"], local.allowed_external_services))
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--gui-dandiarchive-org\\.netlify\\.app$"])
     DJANGO_DEFAULT_FROM_EMAIL          = "info@dandiarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"

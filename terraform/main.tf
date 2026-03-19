@@ -59,3 +59,10 @@ data "aws_region" "current" {}
 data "heroku_team" "dandi" {
   name = "dandi"
 }
+
+locals {
+  allowed_external_services = [
+    "https://medit.dandiarchive.org",
+    "https://neurosift.app",
+  ]
+}
