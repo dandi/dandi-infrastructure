@@ -61,7 +61,7 @@ data "heroku_team" "dandi" {
 }
 
 locals {
-  cors_allowed_origins = [
+  allowed_external_services = [
     "https://medit.dandiarchive.org",
     "https://neurosift.app",
   ]
