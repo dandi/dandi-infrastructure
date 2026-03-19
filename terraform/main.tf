@@ -59,3 +59,10 @@ data "aws_region" "current" {}
 data "heroku_team" "dandi" {
   name = "dandi"
 }
+
+locals {
+  cors_allowed_origins = [
+    "https://medit.dandiarchive.org",
+    "https://neurosift.app",
+  ]
+}
