@@ -36,3 +36,22 @@ resource "aws_route53_record" "gui_sandbox" {
   ttl     = "300"
   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
 }
+
+resource "aws_route53_record" "sandbox_email" {
+  zone_id = aws_route53_zone.dandi_sandbox.zone_id
+  name    = "" # apex
+  type    = "MX"
+  ttl     = "300"
+  records = [
+    "10 mx1.improvmx.com.",
+    "20 mx2.improvmx.com.",
+  ]
+}
+
+resource "aws_route53_record" "sandbox_email_spf" {
+  zone_id = aws_route53_zone.dandi_sandbox.zone_id
+  name    = "" # apex
+  type    = "TXT"
+  ttl     = "300"
+  records = ["v=spf1 include:spf.improvmx.com ~all"]
+}

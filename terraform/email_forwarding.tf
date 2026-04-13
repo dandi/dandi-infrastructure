@@ -26,3 +26,13 @@ resource "improvmx_email_forward" "community" {
   alias_name        = "community"
   destination_email = "kabi@mit.edu,roni.choudhury@kitware.com,satra@mit.edu,yoh@onerussian.com"
 }
+
+resource "improvmx_domain" "sandbox" {
+  domain = "sandbox.dandiarchive.org"
+}
+
+resource "improvmx_email_forward" "sandbox_info" {
+  domain            = improvmx_domain.sandbox.domain
+  alias_name        = "info"
+  destination_email = "dandi@mit.edu"
+}
