@@ -36,8 +36,3 @@ resource "improvmx_email_forward" "sandbox_info" {
   alias_name        = "info"
   destination_email = "dandi@mit.edu"
 }
-
-import {
-  to = improvmx_email_forward.sandbox_info
-  id = "sandbox.dandiarchive.org_info"
-}
