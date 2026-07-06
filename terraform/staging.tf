@@ -29,8 +29,8 @@ module "api_sandbox_heroku" {
   config_vars = {
     AWS_ACCESS_KEY_ID                  = aws_iam_access_key.api_sandbox_heroku_user.id
     AWS_DEFAULT_REGION                 = data.aws_region.current.region
-    DJANGO_ALLOWED_HOSTS               = join(",", ["apl-setup--ember-dandi-archive.netlify.app", "api-dandi.sandbox.emberarchive.org"])
-    DJANGO_CORS_ALLOWED_ORIGINS        = join(",", concat(["https://apl-setup--ember-dandi-archive.netlify.app"], local.allowed_external_services))
+    DJANGO_ALLOWED_HOSTS               = join(",", ["dandi.sandbox.emberarchive.org", "ember-dandi-archive-sandbox.netlify.app", "api-dandi.sandbox.emberarchive.org"])
+    DJANGO_CORS_ALLOWED_ORIGINS        = join(",", concat(["https://dandi.sandbox.emberarchive.org"], local.allowed_external_services))
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--dandi-sandbox-emberarchive-org\\.netlify\\.app$", "^https:\\/\\/[0-9a-z\\-]+--ember-dandi-archive\\.netlify\\.app$"])
     DJANGO_DEFAULT_FROM_EMAIL          = "info@emberarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"
@@ -41,7 +41,7 @@ module "api_sandbox_heroku" {
     DJANGO_SENTRY_DSN                 = data.sentry_key.this.dsn.public
     DJANGO_SENTRY_ENVIRONMENT         = "staging"
     DJANGO_OAUTH2_ALLOW_URI_WILDCARDS = "true"
-    DJANGO_DANDI_WEB_APP_URL          = "https://apl-setup--ember-dandi-archive.netlify.app" // Future: "dandi.sandbox.emberarchive.org"
+    DJANGO_DANDI_WEB_APP_URL          = "https://dandi.sandbox.emberarchive.org"
     DJANGO_DANDI_API_URL              = "https://api-dandi.sandbox.emberarchive.org"
     DJANGO_DANDI_JUPYTERHUB_URL       = "https://hub.dandiarchive.org/"
     DJANGO_DANDI_DOI_API_URL          = "https://api.test.datacite.org/dois"

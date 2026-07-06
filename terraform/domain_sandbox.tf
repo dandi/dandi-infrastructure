@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "dandi_sandbox" {
-  name = "sandbox.emberarchive.org" // "apl-setup--ember-dandi-archive.netlify.app" // Future: "dandi.sandbox.emberarchive.org"
+  name = "sandbox.emberarchive.org"
 }
 
 # Point the top-level zone at the sandbox zone
@@ -31,7 +31,7 @@ resource "aws_route53_record" "ns_sandbox" {
 
 resource "aws_route53_record" "gui_sandbox" {
   zone_id = aws_route53_zone.dandi_sandbox.zone_id
-  name    = "" # apex
+  name    = "dandi" # apex
   type    = "A"
   ttl     = "300"
   records = ["75.2.60.5"] # Netlify's load balancer, which will proxy to our app
