@@ -52,7 +52,10 @@ import {
   id = "emberarchive.org_community"
 }
 
-# EMBER-DANDI: not adding a separate SANDBOX email at this time
+# Note: ImprovMX limits users to 1 domain.
+# - Prod Account: emberarchive@jhuapl.edu -- @emberarchive.org
+# - Sandbox Account: bbqs-ember-admin@jhuapl.edu -- @sandbox.emberarchive.org
+
 resource "improvmx_domain" "sandbox" {
   domain = "sandbox.dandiarchive.org"
 }
@@ -60,5 +63,5 @@ resource "improvmx_domain" "sandbox" {
 resource "improvmx_email_forward" "sandbox_info" {
   domain            = improvmx_domain.sandbox.domain
   alias_name        = "info"
-  destination_email = "emberarchive@jhuapl.edu"
+  destination_email = "bbqs-ember-admin@jhuapl.edu"
 }
