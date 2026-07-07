@@ -53,12 +53,12 @@ import {
 }
 
 # EMBER-DANDI: not adding a separate SANDBOX email at this time
-# resource "improvmx_domain" "sandbox" {
-#   domain = "sandbox.dandiarchive.org"
-# }
+resource "improvmx_domain" "sandbox" {
+  domain = "sandbox.dandiarchive.org"
+}
 
-# resource "improvmx_email_forward" "sandbox_info" {
-#   domain            = improvmx_domain.sandbox.domain
-#   alias_name        = "info"
-#   destination_email = "dandi@mit.edu"
-# }
+resource "improvmx_email_forward" "sandbox_info" {
+  domain            = improvmx_domain.sandbox.domain
+  alias_name        = "info"
+  destination_email = "emberarchive@jhuapl.edu"
+}
