@@ -57,7 +57,8 @@ import {
 # - Sandbox Account: bbqs-ember-admin@jhuapl.edu -- @sandbox.emberarchive.org
 
 resource "improvmx_domain" "sandbox" {
-  domain = "sandbox.emberarchive.org"
+  provider = improvmx.sandbox
+  domain   = "sandbox.emberarchive.org"
 }
 
 resource "improvmx_email_forward" "sandbox_info" {

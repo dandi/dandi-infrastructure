@@ -44,6 +44,12 @@ provider "improvmx" {
   # Must set IMPROVMX_API_TOKEN envvar
 }
 
+provider "improvmx" {
+  alias = "sandbox"
+  api_key = var.IMPROVMX_SANDBOX_API_TOKEN
+  # Must set IMPROVMX_SANDBOX_API_TOKEN envvar
+}
+
 data "aws_canonical_user_id" "project_account" {}
 
 data "aws_caller_identity" "project_account" {}

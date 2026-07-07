@@ -12,3 +12,8 @@ variable "dev_email" {
   type        = string
   description = "The core developer email list."
 }
+
+variable "IMPROVMX_SANDBOX_API_TOKEN" {
+  type        = string
+  description = "ImprovMX Sandbox account API token."
+}
