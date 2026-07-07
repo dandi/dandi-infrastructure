@@ -2,7 +2,7 @@ module "api_sandbox_smtp" {
   source  = "kitware-resonant/resonant/heroku//modules/smtp"
   version = "3.0.0"
 
-  fqdn            = "api-dandi.sandbox.emberarchive.org"
+  fqdn            = "emberarchive.org" # Sandbox uses the same email as Prod
   project_slug    = "ember-dandi-api-sandbox"
   route53_zone_id = aws_route53_zone.dandi_sandbox.zone_id
 }
