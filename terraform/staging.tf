@@ -2,7 +2,7 @@ module "api_sandbox_smtp" {
   source  = "kitware-resonant/resonant/heroku//modules/smtp"
   version = "3.0.0"
 
-  fqdn            = "api-dandi.sandbox.emberarchive.org"
+  fqdn            = "sandbox.emberarchive.org"
   project_slug    = "ember-dandi-api-sandbox"
   route53_zone_id = aws_route53_zone.dandi_sandbox.zone_id
 }
@@ -32,7 +32,7 @@ module "api_sandbox_heroku" {
     DJANGO_ALLOWED_HOSTS               = join(",", ["dandi.sandbox.emberarchive.org", "ember-dandi-archive-sandbox.netlify.app", "api-dandi.sandbox.emberarchive.org"])
     DJANGO_CORS_ALLOWED_ORIGINS        = join(",", concat(["https://dandi.sandbox.emberarchive.org"], local.allowed_external_services))
     DJANGO_CORS_ALLOWED_ORIGIN_REGEXES = join(",", ["^https:\\/\\/[0-9a-z\\-]+--dandi-sandbox-emberarchive-org\\.netlify\\.app$", "^https:\\/\\/[0-9a-z\\-]+--ember-dandi-archive\\.netlify\\.app$"])
-    DJANGO_DEFAULT_FROM_EMAIL          = "info@emberarchive.org"
+    DJANGO_DEFAULT_FROM_EMAIL          = "info@sandbox.emberarchive.org"
     DJANGO_SETTINGS_MODULE             = "dandiapi.settings.heroku_production"
     DJANGO_STORAGE_BUCKET_NAME         = module.staging_dandiset_bucket.bucket_name
 
@@ -55,7 +55,7 @@ module "api_sandbox_heroku" {
     # These may be removed in the future
     DJANGO_DANDI_DANDISETS_BUCKET_NAME   = module.staging_dandiset_bucket.bucket_name
     DJANGO_DANDI_DEV_EMAIL               = var.dev_email
-    DJANGO_DANDI_ADMIN_EMAIL             = "info@emberarchive.org"
+    DJANGO_DANDI_ADMIN_EMAIL             = "info@sandbox.emberarchive.org"
   }
   sensitive_config_vars = {
     AWS_SECRET_ACCESS_KEY         = aws_iam_access_key.api_sandbox_heroku_user.secret
