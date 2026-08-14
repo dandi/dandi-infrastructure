@@ -19,7 +19,7 @@ resource "heroku_formation" "webdav_heroku_web" {
   app_id   = heroku_app.webdav.id
   type     = "web"
   size     = "standard-2x"
-  quantity = 1
+  quantity = 0 # scale down the server. TODO: should we remove the webdav server entirely?
 }
 
 resource "heroku_domain" "webdav" {
