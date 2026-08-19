@@ -7,5 +7,5 @@ resource "aws_route53_record" "hub_redirector" {
   name    = "hub"
   type    = "CNAME"
   ttl     = "300"
-  records = ["hub-dandiarchive-org.netlify.com"]
+  records = ["redirect-dandiarchive-org.netlify.app"]
 }
