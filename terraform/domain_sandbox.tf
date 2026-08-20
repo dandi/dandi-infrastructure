@@ -18,7 +18,7 @@ resource "aws_route53_record" "gui-staging" {
   name    = "gui-staging"
   type    = "CNAME"
   ttl     = "300"
-  records = ["gui-staging-dandiarchive-org.netlify.com"]
+  records = ["redirect-dandiarchive-org.netlify.app"]
 }
 resource "aws_route53_record" "api-staging" {
   # Intentionally pointing to the production zone
@@ -26,7 +26,7 @@ resource "aws_route53_record" "api-staging" {
   name    = "api-staging"
   type    = "CNAME"
   ttl     = "300"
-  records = ["api-staging-dandiarchive-org.netlify.com"]
+  records = ["redirect-dandiarchive-org.netlify.app"]
 }
 
 resource "aws_route53_record" "gui_sandbox" {
