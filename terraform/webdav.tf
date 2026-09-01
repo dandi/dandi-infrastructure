@@ -1,3 +1,7 @@
+# The DANDI WebDAV service (dandidav) was sunset in August 2026, and
+# webdav.dandiarchive.org now points at the Netlify hosted redirector (see
+# domain_webdav.tf). The app and its custom domain are intentionally kept here
+# so the app is parked rather than destroyed; the formation is held at 0 dynos.
 resource "heroku_app" "webdav" {
   name   = "dandidav"
   region = "us"
@@ -19,18 +23,10 @@ resource "heroku_formation" "webdav_heroku_web" {
   app_id   = heroku_app.webdav.id
   type     = "web"
   size     = "standard-2x"
-  quantity = 0 # scale down the server. TODO: should we remove the webdav server entirely?
+  quantity = 0 # the service is sunset; the app is parked with no running dynos
 }
 
 resource "heroku_domain" "webdav" {
   app_id   = heroku_app.webdav.id
   hostname = "webdav.dandiarchive.org"
-}
-
-resource "aws_route53_record" "heroku" {
-  zone_id = aws_route53_zone.dandi.zone_id
-  name    = "webdav"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [heroku_domain.webdav.cname]
 }

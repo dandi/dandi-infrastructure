@@ -27,3 +27,8 @@ moved {
   from = module.api.aws_iam_access_key.heroku_user
   to   = aws_iam_access_key.api_heroku_user
 }
+
+moved {
+  from = aws_route53_record.heroku
+  to   = aws_route53_record.webdav_redirector
+}
